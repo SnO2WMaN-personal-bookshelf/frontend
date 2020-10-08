@@ -1,0 +1,22 @@
+query getUserReadBooks($id: ID!, $cursor: String) {
+  user(id: $id) {
+    readBooks {
+      id
+      books(first: 50, after: $cursor) {
+        totalItems
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            id
+            title
+            cover
+          }
+        }
+      }
+    }
+  }
+}
