@@ -1,0 +1,18 @@
+# ignoregen node
+node_modules/
+
+npm-*.log
+
+yarn-*.log
+
+# Test
+coverage/
+
+# Environment Variables
+.env*
+!.env.example
+
+# Build Outputs
+.next/
+dist/
+generated/

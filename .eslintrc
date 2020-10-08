@@ -1,0 +1,29 @@
+{
+  "root": true,
+  "extends": [
+    "plugin:@shopify/typescript",
+    "plugin:@shopify/jest",
+    "plugin:@shopify/react",
+    "plugin:@shopify/graphql",
+    "plugin:@shopify/prettier"
+  ],
+  "rules": {
+    "import/order": [0],
+    "jest/valid-title": [0],
+    "jest/lowercase-name": [0]
+  },
+
+  "overrides": [
+    {
+      "files": ["*.config.js"],
+      "extends": ["plugin:@shopify/node"]
+    },
+    {
+      "files": ["next-env.d.ts"],
+      "rules": {
+        "spaced-comment": [0],
+        "@typescript-eslint/triple-slash-reference": [0]
+      }
+    }
+  ]
+}

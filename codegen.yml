@@ -1,0 +1,24 @@
+schema:
+  - ${GRAPHQL_API_ENDPOINT}
+documents:
+  - 'src/queries/*.{ts,graphql}'
+generates:
+  generated/graphql.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      scalars:
+        ISBN: string
+        URL: string
+  generated/schema.graphql:
+    plugins:
+      - 'schema-ast'
+    config:
+      includeDirectives: true
+  generated/graphql-introspection.json:
+    plugins:
+      - 'introspection'
+    config:
+      minify: true

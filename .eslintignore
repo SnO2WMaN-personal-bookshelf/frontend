@@ -1,0 +1,7 @@
+# Test
+coverage/
+
+# Build Outputs
+.next/
+dist/
+generated/
