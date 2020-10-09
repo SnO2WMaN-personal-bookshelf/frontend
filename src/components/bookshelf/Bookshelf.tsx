@@ -1,14 +1,16 @@
 import clsx from 'clsx';
 import React from 'react';
 
+export interface BookType {
+  id: string;
+  title: string;
+  cover?: string;
+}
+
 export interface ContainerProps {
   className?: string;
 
-  books: {
-    id: string;
-    title: string;
-    cover?: string;
-  }[];
+  books: BookType[];
 }
 export type Props = ContainerProps;
 
