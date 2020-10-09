@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Link from 'next/link';
 import React from 'react';
 
 export interface BookType {
@@ -21,8 +22,12 @@ export const BookComponent: React.FC<{
   title: string;
   cover?: string;
 }> = ({className, id, cover, title}) => (
-  <li className={clsx(className, 'flex', 'justify-center')}>
-    <img src={cover} alt={title} />
+  <li className={clsx(className)}>
+    <Link href={`/books/${id}`}>
+      <a className={clsx('flex', 'justify-center')}>
+        <img src={cover} alt={title} />
+      </a>
+    </Link>
   </li>
 );
 
