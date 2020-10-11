@@ -47,9 +47,9 @@ export const Component: React.FC<Props> = ({className}) => (
       <MenuButton href="/profile">プロフィール</MenuButton>
     </ul>
     <ul className={clsx()}>
-      <MenuButton href="/read">読んだ本</MenuButton>
-      <MenuButton href="/reading">読んでいる本</MenuButton>
-      <MenuButton href="/wish">読みたい本</MenuButton>
+      <MenuButton href="/user/read">読んだ本</MenuButton>
+      <MenuButton href="/user/reading">読んでいる本</MenuButton>
+      <MenuButton href="/user/wish">読みたい本</MenuButton>
     </ul>
     <ul className={clsx()}>
       <MenuButton href="/settings">設定</MenuButton>

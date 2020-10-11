@@ -7,23 +7,18 @@ import {Dropdown} from './Dropdown';
 export type ContainerProps = {
   className?: string;
   user: {
-    image: string;
+    picture: string;
     name: string;
   };
 };
 
-export type Props = Merge<ContainerProps, ContainerProps['user']>;
+export type Props = Merge<Omit<ContainerProps, 'user'>, ContainerProps['user']>;
 
-export const ComponentBase: React.FC<Props> = ({
-  className,
-  name,
-  image,
-  user,
-}) => (
+export const ComponentBase: React.FC<Props> = ({className, name, picture}) => (
   <details className={clsx(className, 'relative')}>
     <summary className={clsx('list-none', 'outline-none')}>
       <div className={clsx('cursor-pointer')}>
-        <img src={image} alt={name} className={clsx('h-8', 'rounded')} />
+        <img src={picture} alt={name} className={clsx('h-8', 'rounded')} />
       </div>
     </summary>
     <Dropdown

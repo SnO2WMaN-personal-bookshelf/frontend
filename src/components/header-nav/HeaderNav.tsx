@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import {Merge} from 'type-fest';
 import {useFetchUser} from '~/lib/user';
-import {User} from './user/User';
+import {ContainerProps as UserContainerProps, User} from './user/User';
 
 export type ContainerProps = {
   className?: string;
@@ -12,10 +12,7 @@ export type Props = Merge<
   ContainerProps,
   {
     isLogin: boolean;
-    user?: {
-      image: string;
-      name: string;
-    };
+    user?: Required<UserContainerProps['user']>;
   }
 >;
 
@@ -43,7 +40,7 @@ export const Component: React.FC<Props> = ({className, isLogin, user}) => (
 );
 
 export const HeaderNav: React.FC<ContainerProps> = ({...props}) => {
-  const {user} = useFetchUser();
+  const {user, loading} = useFetchUser();
 
   return (
     <Component
@@ -51,8 +48,8 @@ export const HeaderNav: React.FC<ContainerProps> = ({...props}) => {
       isLogin={Boolean(user)}
       user={
         user && {
+          picture: user.picture,
           name: user.nickname,
-          image: user.picture,
         }
       }
     />
