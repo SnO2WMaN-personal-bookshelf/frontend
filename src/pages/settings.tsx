@@ -1,8 +1,8 @@
+import {withAuthenticationRequired} from '@auth0/auth0-react';
 import React from 'react';
-import {useFetchUser} from '~/lib/user';
 
-export default function Home() {
-  const {user, loading} = useFetchUser();
-
+export function SettingsPage() {
   return <main />;
 }
+
+export default withAuthenticationRequired(SettingsPage);

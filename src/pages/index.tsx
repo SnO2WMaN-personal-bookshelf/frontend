@@ -1,8 +1,5 @@
 import React from 'react';
-import {useFetchUser} from '~/lib/user';
 
-export default function Home() {
-  const {user, loading} = useFetchUser();
-
+export default function IndexPage() {
   return <main />;
 }

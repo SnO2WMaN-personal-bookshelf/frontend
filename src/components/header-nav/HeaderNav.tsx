@@ -1,9 +1,9 @@
+import {useAuth0} from '@auth0/auth0-react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import React from 'react';
 import {Merge} from 'type-fest';
-import {useFetchUser} from '~/lib/user';
-import {ContainerProps as UserContainerProps, User} from './user/User';
+import {User} from './user/User';
 
 export type ContainerProps = {
   className?: string;
@@ -11,12 +11,16 @@ export type ContainerProps = {
 export type Props = Merge<
   ContainerProps,
   {
-    isLogin: boolean;
-    user?: Required<UserContainerProps['user']>;
+    login(): void;
+    isAuthenticated: boolean;
   }
 >;
 
-export const Component: React.FC<Props> = ({className, isLogin, user}) => (
+export const Component: React.FC<Props> = ({
+  className,
+  isAuthenticated,
+  login,
+}) => (
   <nav
     className={clsx(className, 'bg-blue-700', 'h-16', 'flex', 'items-center')}
   >
@@ -28,30 +32,25 @@ export const Component: React.FC<Props> = ({className, isLogin, user}) => (
       </div>
       <div className={clsx('flex', 'flex-grow')} />
       <div className={clsx('flex')}>
-        {!isLogin && (
-          <a className={clsx('text-white')} href="/api/login">
+        {!isAuthenticated && (
+          <button type="button" className={clsx('text-white')} onClick={login}>
             Login
-          </a>
+          </button>
         )}
-        {isLogin && user && <User user={user} />}
+        {isAuthenticated && <User />}
       </div>
     </div>
   </nav>
 );
 
 export const HeaderNav: React.FC<ContainerProps> = ({...props}) => {
-  const {user, loading} = useFetchUser();
+  const {isAuthenticated, user, loginWithRedirect} = useAuth0();
 
   return (
     <Component
       {...props}
-      isLogin={Boolean(user)}
-      user={
-        user && {
-          picture: user.picture,
-          name: user.nickname,
-        }
-      }
+      isAuthenticated={isAuthenticated}
+      login={loginWithRedirect}
     />
   );
 };

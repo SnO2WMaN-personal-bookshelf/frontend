@@ -1,18 +1,38 @@
+import {useQuery} from '@apollo/client';
+import {useAuth0, withAuthenticationRequired} from '@auth0/auth0-react';
 import clsx from 'clsx';
+import gql from 'graphql-tag';
 import React from 'react';
-import {WithAuth} from '~/components/auth0/WithAuth';
 import {Layout} from '~/components/layouts/Layout';
 import {LoadingLayout} from '~/components/layouts/LoadingLayout';
-import {useFetchUser} from '~/lib/user';
+
+const QUERY = gql`
+  query {
+    currentUser {
+      id
+      readBooks {
+        id
+        books {
+          totalItems
+        }
+      }
+    }
+  }
+`;
 
 export const ReadBooksPage: React.FC = () => {
-  const {user, loading} = useFetchUser();
-  if (loading) return <LoadingLayout />;
+  const {isLoading, user} = useAuth0();
+
+  const {data, error, loading} = useQuery(QUERY);
+
+  if (isLoading) return <LoadingLayout />;
+
   return (
     <Layout>
       <h1 className={clsx('text-xl')}>{user.name}さんが読んだ本</h1>
+      {error && <p>{JSON.stringify(error)}</p>}
     </Layout>
   );
 };
 
-export default WithAuth(ReadBooksPage);
+export default withAuthenticationRequired(ReadBooksPage);

@@ -1,3 +1,4 @@
+import {useAuth0} from '@auth0/auth0-react';
 import clsx from 'clsx';
 import React from 'react';
 import styled from 'styled-components';
@@ -6,13 +7,15 @@ import {Dropdown} from './Dropdown';
 
 export type ContainerProps = {
   className?: string;
-  user: {
-    picture: string;
-    name: string;
-  };
 };
 
-export type Props = Merge<Omit<ContainerProps, 'user'>, ContainerProps['user']>;
+export type Props = Merge<
+  ContainerProps,
+  {
+    picture: string;
+    name: string;
+  }
+>;
 
 export const ComponentBase: React.FC<Props> = ({className, name, picture}) => (
   <details className={clsx(className, 'relative')}>
@@ -48,5 +51,6 @@ export const Component = styled(ComponentBase)`
 `;
 
 export const User: React.FC<ContainerProps> = (props) => {
-  return <Component {...props} {...props.user} />;
+  const {user} = useAuth0();
+  return <Component {...props} {...user} />;
 };
