@@ -2,6 +2,7 @@
   "name": "my-personal-comic-db-frontend",
   "private": "true",
   "scripts": {
+    "prebuild": "run-s -cn clean",
     "build": "run-s build:codegen build:next",
     "build:codegen": "gql-gen",
     "build:next": "next build",
@@ -11,6 +12,7 @@
     "test": "jest",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:watch": "jest --watch",
+    "clean": "rimraf dist generated",
     "lint": "run-s -cn lint:*",
     "lint:eslint": "eslint . --ext .js,.jsx,.ts,.tsx,.graphql",
     "lint:prettier": "prettier --check **/*.{json,yml,yaml,md,graphql}",
@@ -74,6 +76,7 @@
     "prettier": "^2.0.5",
     "prettier-plugin-optipack": "^1.0.0",
     "prettier-plugin-organize-imports": "^1.1.1",
+    "rimraf": "^3.0.2",
     "stylelint": "^13.6.1",
     "stylelint-config-styled-components": "^0.1.1",
     "ts-jest": "^26.2.0",
