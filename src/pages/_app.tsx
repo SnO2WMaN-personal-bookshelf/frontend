@@ -22,7 +22,6 @@ export const App: React.FC<Props> = ({Component, pageProps}) => {
       domain={process.env.NEXT_PUBLIC_DOMAIN!}
       clientId={process.env.NEXT_PUBLIC_CLIENT_ID!}
       audience={process.env.NEXT_PUBLIC_AUDIENCE!}
-      scope="read:users"
       redirectUri={typeof window !== 'undefined' && window.location.origin}
       onRedirectCallback={onRedirectCallback}
     >
@@ -30,7 +29,6 @@ export const App: React.FC<Props> = ({Component, pageProps}) => {
         apiEndpoint={process.env.GRAPHQL_API_ENDPOINT!}
         auth0={{
           audience: process.env.NEXT_PUBLIC_AUDIENCE!,
-          scope: 'read:users',
         }}
       >
         <HeaderNav className={clsx('w-full')} />
