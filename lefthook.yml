@@ -9,7 +9,7 @@ pre-commit:
     eslint:
       tags: frontend lint
       files: git diff --name-only --staged
-      glob: '*.{js,ts}'
+      glob: '*.{js,ts,jsx,tsx'
       run: eslint {staged_files}
     stylelint:
       tags: frontend lint
