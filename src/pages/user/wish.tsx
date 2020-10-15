@@ -1,18 +1,22 @@
-import {useAuth0, withAuthenticationRequired} from '@auth0/auth0-react';
-import clsx from 'clsx';
+import {withAuthenticationRequired} from '@auth0/auth0-react';
+import gql from 'graphql-tag';
 import React from 'react';
-import {Layout} from '~/components/layouts/Layout';
-import {LoadingLayout} from '~/components/layouts/LoadingLayout';
+import {useGetWishBooksQuery} from '~~/generated/graphql';
+import {BooksPage} from './read';
+
+export const Query = gql`
+  query GetWishBooks {
+    currentUser {
+      displayName
+      books: readingBooks {
+        id
+      }
+    }
+  }
+`;
 
 export const WishBooksPage: React.FC = () => {
-  const {isLoading, user} = useAuth0();
-  if (isLoading) return <LoadingLayout />;
-
-  return (
-    <Layout>
-      <h1 className={clsx('text-xl')}>{user.name}さんが読みたい本</h1>
-    </Layout>
-  );
+  return <BooksPage useQuery={useGetWishBooksQuery} />;
 };
 
 export default withAuthenticationRequired(WishBooksPage);
