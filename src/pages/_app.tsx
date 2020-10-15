@@ -4,8 +4,10 @@ import clsx from 'clsx';
 import {AppProps} from 'next/app';
 import Router from 'next/router';
 import React from 'react';
+import {I18nextProvider} from 'react-i18next';
 import {HeaderNav} from '~/components/header-nav/HeaderNav';
 import {Auth0AuthorizedApolloProvider} from '~/components/providers/Auth0AuthorizedApolloProvider';
+import i18n from '~/i18n';
 import '~/styles/tailwind.css';
 
 const onRedirectCallback: Auth0ProviderOptions['onRedirectCallback'] = (
@@ -31,8 +33,10 @@ export const App: React.FC<Props> = ({Component, pageProps}) => {
           audience: process.env.NEXT_PUBLIC_AUDIENCE!,
         }}
       >
-        <HeaderNav className={clsx('w-full')} />
-        <Component {...pageProps} />
+        <I18nextProvider i18n={i18n}>
+          <HeaderNav className={clsx('w-full')} />
+          <Component {...pageProps} />
+        </I18nextProvider>
       </Auth0AuthorizedApolloProvider>
     </Auth0Provider>
   );
