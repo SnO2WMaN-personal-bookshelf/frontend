@@ -16,7 +16,12 @@ export const Query = gql`
 `;
 
 export const ReadingBooksPage: React.FC = () => {
-  return <BooksPage useQuery={useGetReadingBooksQuery} />;
+  return (
+    <BooksPage
+      useQuery={useGetReadingBooksQuery}
+      i18nKeys={{title: '{{name}}が読んでいる本'}}
+    />
+  );
 };
 
 export default withAuthenticationRequired(ReadingBooksPage);

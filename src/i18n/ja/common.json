@@ -1,0 +1,9 @@
+{
+  "sign_in": "ログイン",
+  "sign_out": "ログアウト",
+  "profile": "プロフィール",
+  "settings": "設定",
+  "units": {
+    "books": "{{count}}冊"
+  }
+}

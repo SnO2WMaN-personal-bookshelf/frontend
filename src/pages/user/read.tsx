@@ -2,6 +2,7 @@ import {withAuthenticationRequired} from '@auth0/auth0-react';
 import clsx from 'clsx';
 import gql from 'graphql-tag';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {Layout} from '~/components/layouts/Layout';
 import {LoadingLayout} from '~/components/layouts/LoadingLayout';
 import {Bookshelf} from '~/components/page/Bookshelf';
@@ -27,7 +28,10 @@ export const BooksPage: React.FC<{
     | typeof useGetReadBooksQuery
     | typeof useGetReadingBooksQuery
     | typeof useGetWishBooksQuery;
-}> = ({useQuery}) => {
+  i18nKeys: {title: string};
+}> = ({useQuery, i18nKeys}) => {
+  const {t, i18n} = useTranslation();
+
   const {data, error, loading} = useQuery();
 
   if (loading || !data) return <LoadingLayout />;
@@ -40,14 +44,21 @@ export const BooksPage: React.FC<{
 
   return (
     <Layout>
-      <h1 className={clsx('text-xl')}>{data.currentUser.displayName}</h1>
+      <h1 className={clsx('text-xl')}>
+        {t(i18nKeys.title, {name: data.currentUser.displayName})}
+      </h1>
       <Bookshelf id={data.currentUser.books.id} />
     </Layout>
   );
 };
 
 export const ReadBooksPage: React.FC = () => {
-  return <BooksPage useQuery={useGetReadBooksQuery} />;
+  return (
+    <BooksPage
+      useQuery={useGetReadBooksQuery}
+      i18nKeys={{title: '{{name}}が読んだ本'}}
+    />
+  );
 };
 
 export default withAuthenticationRequired(ReadBooksPage);

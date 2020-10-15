@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import gql from 'graphql-tag';
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {Merge} from 'type-fest';
 import {useGetBookshelfFromIdQuery} from '~~/generated/graphql';
@@ -37,17 +38,19 @@ export const Query = gql`
 export type ComponentProps = Merge<
   Pick<Props, 'className'>,
   {
-    totalItems: number;
     books: {id: string; cover?: string; title: string}[];
+    i18n: {
+      [key in 'bookCounts']: string;
+    };
   }
 >;
 export const Component: React.FC<ComponentProps> = ({
   className,
-  totalItems,
   books,
+  i18n,
 }) => (
   <div className={clsx(className)}>
-    <p>{totalItems}冊</p>
+    <p>{i18n.bookCounts}</p>
     <ul className={clsx('grid', 'grid-cols-8')}>
       {books.map(({cover, title, id}) => (
         <li className={clsx()} key={id}>
@@ -60,6 +63,8 @@ export const Component: React.FC<ComponentProps> = ({
 
 export type Props = {className?: string; id: string};
 export const Bookshelf: React.FC<Props> = ({id, ...props}) => {
+  const {t, i18n} = useTranslation();
+
   const {data, error, loading, fetchMore} = useGetBookshelfFromIdQuery({
     variables: {id},
   });
@@ -117,8 +122,12 @@ export const Bookshelf: React.FC<Props> = ({id, ...props}) => {
       >
         <Component
           {...props}
-          totalItems={data.bookshelf.books.totalItems}
           books={books}
+          i18n={{
+            bookCounts: t('common:units.books', {
+              count: data.bookshelf.books.totalItems,
+            }),
+          }}
         />
       </InfiniteScroll>
     );

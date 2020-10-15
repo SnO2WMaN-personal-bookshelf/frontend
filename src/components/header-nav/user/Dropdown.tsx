@@ -2,12 +2,27 @@ import {useAuth0} from '@auth0/auth0-react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {Merge} from 'type-fest';
 
 export type ContainerProps = {
   className?: string;
 };
-export type Props = Merge<ContainerProps, {logout(): void}>;
+export type Props = Merge<
+  ContainerProps,
+  {
+    logout(): void;
+    i18n: {
+      [key in
+        | 'profile'
+        | 'readBooks'
+        | 'readingBooks'
+        | 'wishBooks'
+        | 'settings'
+        | 'signOut']: string;
+    };
+  }
+>;
 
 export const MenuButton: React.FC<{
   className?: string;
@@ -36,7 +51,7 @@ export const MenuButton: React.FC<{
   </li>
 );
 
-export const Component: React.FC<Props> = ({className, logout}) => (
+export const Component: React.FC<Props> = ({className, logout, i18n}) => (
   <div
     className={clsx(
       className,
@@ -49,18 +64,18 @@ export const Component: React.FC<Props> = ({className, logout}) => (
     )}
   >
     <ul className={clsx()}>
-      <MenuButton href="/profile">プロフィール</MenuButton>
+      <MenuButton href="/profile">{i18n.profile}</MenuButton>
     </ul>
     <ul className={clsx()}>
-      <MenuButton href="/user/read">読んだ本</MenuButton>
-      <MenuButton href="/user/reading">読んでいる本</MenuButton>
-      <MenuButton href="/user/wish">読みたい本</MenuButton>
+      <MenuButton href="/user/read">{i18n.readBooks}</MenuButton>
+      <MenuButton href="/user/reading">{i18n.readingBooks}</MenuButton>
+      <MenuButton href="/user/wish">{i18n.wishBooks}</MenuButton>
     </ul>
     <ul className={clsx()}>
-      <MenuButton href="/settings">設定</MenuButton>
+      <MenuButton href="/settings">{i18n.settings}</MenuButton>
       <MenuButton>
         <button type="button" onClick={logout}>
-          ログアウト
+          {i18n.signOut}
         </button>
       </MenuButton>
     </ul>
@@ -68,14 +83,21 @@ export const Component: React.FC<Props> = ({className, logout}) => (
 );
 
 export const Dropdown: React.FC<ContainerProps> = (props) => {
-  const {
-    isLoading,
-    isAuthenticated,
-    error,
-    user,
-    loginWithRedirect,
-    logout,
-  } = useAuth0();
+  const {logout} = useAuth0();
+  const {t, i18n} = useTranslation();
 
-  return <Component {...props} logout={logout} />;
+  return (
+    <Component
+      {...props}
+      logout={logout}
+      i18n={{
+        profile: t('common:profile'),
+        signOut: t('common:sign_out'),
+        settings: t('common:settings'),
+        readBooks: t('読んだ本'),
+        readingBooks: t('読んでいる本'),
+        wishBooks: t('読みたい本'),
+      }}
+    />
+  );
 };
