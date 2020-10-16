@@ -44,7 +44,7 @@ export const Component: React.FC<Props> = ({
 );
 
 export const HeaderNav: React.FC<ContainerProps> = ({...props}) => {
-  const {isAuthenticated, user, loginWithRedirect} = useAuth0();
+  const {isAuthenticated, loginWithRedirect} = useAuth0();
 
   return (
     <Component

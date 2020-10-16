@@ -1,15 +1,21 @@
 import {useAuth0} from '@auth0/auth0-react';
+import {
+  faBook,
+  faBookmark,
+  faBookOpen,
+  faCog,
+  faSignOutAlt,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import clsx from 'clsx';
-import Link from 'next/link';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
+import styled from 'styled-components';
 import {Merge} from 'type-fest';
+import {MenuButton, MenuLinkButton} from './MenuButton';
 
-export type ContainerProps = {
-  className?: string;
-};
-export type Props = Merge<
-  ContainerProps,
+export type ComponentProps = Merge<
+  Props,
   {
     logout(): void;
     i18n: {
@@ -23,66 +29,58 @@ export type Props = Merge<
     };
   }
 >;
-
-export const MenuButton: React.FC<{
-  className?: string;
-
-  href?: string;
-}> = ({children, href, className}) => (
-  <li
-    className={clsx(className, 'flex', 'hover:bg-blue-500', 'hover:text-white')}
-  >
-    {href && (
-      <Link href={href} passHref>
-        <a
-          className={clsx(
-            'w-full',
-            'px-6',
-            'py-2',
-            'text-sm',
-            'whitespace-no-wrap',
-          )}
-        >
-          {children}
-        </a>
-      </Link>
-    )}
-    {!href && <>{children}</>}
-  </li>
-);
-
-export const Component: React.FC<Props> = ({className, logout, i18n}) => (
+export const ComponentBase: React.FC<ComponentProps> = ({
+  className,
+  logout,
+  i18n,
+}) => (
   <div
     className={clsx(
       className,
       'bg-white',
+      'bg-opacity-75',
+      'border',
+      'border-opacity-75',
+      'divide-y',
+      'divide-opacity-75',
       'shadow-lg',
       'rounded',
-      'border',
-      'divide-y',
       'overflow-hidden',
     )}
   >
     <ul className={clsx()}>
-      <MenuButton href="/profile">{i18n.profile}</MenuButton>
+      <MenuLinkButton icon={faUser} href="/profile">
+        {i18n.profile}
+      </MenuLinkButton>
     </ul>
     <ul className={clsx()}>
-      <MenuButton href="/user/read">{i18n.readBooks}</MenuButton>
-      <MenuButton href="/user/reading">{i18n.readingBooks}</MenuButton>
-      <MenuButton href="/user/wish">{i18n.wishBooks}</MenuButton>
+      <MenuLinkButton icon={faBook} href="/user/read">
+        {i18n.readBooks}
+      </MenuLinkButton>
+      <MenuLinkButton icon={faBookOpen} href="/user/reading">
+        {i18n.readingBooks}
+      </MenuLinkButton>
+      <MenuLinkButton icon={faBookmark} href="/user/wish">
+        {i18n.wishBooks}
+      </MenuLinkButton>
     </ul>
     <ul className={clsx()}>
-      <MenuButton href="/settings">{i18n.settings}</MenuButton>
-      <MenuButton>
-        <button type="button" onClick={logout}>
-          {i18n.signOut}
-        </button>
+      <MenuLinkButton icon={faCog} href="/settings">
+        {i18n.settings}
+      </MenuLinkButton>
+      <MenuButton icon={faSignOutAlt} onClick={logout}>
+        {i18n.signOut}
       </MenuButton>
     </ul>
   </div>
 );
 
-export const Dropdown: React.FC<ContainerProps> = (props) => {
+export const Component = styled(ComponentBase)`
+  backdrop-filter: blur(2px);
+`;
+
+export type Props = {className?: string};
+export const Dropdown: React.FC<Props> = (props) => {
   const {logout} = useAuth0();
   const {t, i18n} = useTranslation();
 

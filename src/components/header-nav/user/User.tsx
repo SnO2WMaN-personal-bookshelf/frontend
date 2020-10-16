@@ -5,19 +5,18 @@ import styled from 'styled-components';
 import {Merge} from 'type-fest';
 import {Dropdown} from './Dropdown';
 
-export type ContainerProps = {
-  className?: string;
-};
-
-export type Props = Merge<
-  ContainerProps,
+export type ComponentProps = Merge<
+  Props,
   {
     picture: string;
     name: string;
   }
 >;
-
-export const ComponentBase: React.FC<Props> = ({className, name, picture}) => (
+export const ComponentBase: React.FC<ComponentProps> = ({
+  className,
+  name,
+  picture,
+}) => (
   <details className={clsx(className, 'relative')}>
     <summary className={clsx('list-none', 'outline-none')}>
       <div className={clsx('cursor-pointer')}>
@@ -50,7 +49,11 @@ export const Component = styled(ComponentBase)`
   }
 `;
 
-export const User: React.FC<ContainerProps> = (props) => {
+export type Props = {
+  className?: string;
+};
+export const User: React.FC<Props> = (props) => {
   const {user} = useAuth0();
+
   return <Component {...props} {...user} />;
 };

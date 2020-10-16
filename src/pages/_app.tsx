@@ -8,6 +8,7 @@ import {I18nextProvider} from 'react-i18next';
 import {HeaderNav} from '~/components/header-nav/HeaderNav';
 import {Auth0AuthorizedApolloProvider} from '~/components/providers/Auth0AuthorizedApolloProvider';
 import i18n from '~/i18n';
+import '~/styles/index.css';
 import '~/styles/tailwind.css';
 
 const onRedirectCallback: Auth0ProviderOptions['onRedirectCallback'] = (
@@ -34,7 +35,9 @@ export const App: React.FC<Props> = ({Component, pageProps}) => {
         }}
       >
         <I18nextProvider i18n={i18n}>
-          <HeaderNav className={clsx('w-full')} />
+          <HeaderNav
+            className={clsx('w-full', 'sticky', 'top-0', 'left-0', 'shadow-md')}
+          />
           <Component {...pageProps} />
         </I18nextProvider>
       </Auth0AuthorizedApolloProvider>
