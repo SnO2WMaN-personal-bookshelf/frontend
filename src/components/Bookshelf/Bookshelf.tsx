@@ -6,12 +6,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import {Merge} from 'type-fest';
 import {Spinner} from '~/components/Spinner/Spinner';
 import {useGetBookshelfFromIdQuery} from '~~/generated/graphql';
-
-export type BookType = {
-  id: string;
-  title: string;
-  cover?: string;
-};
+import {BookLink} from './BookLink';
 
 export const Query = gql`
   query getBookshelfFromId($id: ID!, $endCursor: String) {
@@ -53,9 +48,11 @@ export const Component: React.FC<ComponentProps> = ({
     <p>{i18n.bookCounts}</p>
     <ul className={clsx('grid', 'grid-cols-8')}>
       {books.map(({cover, title, id}) => (
-        <li className={clsx()} key={id}>
-          <img src={cover} alt={title} />
-        </li>
+        <BookLink
+          className={clsx('h-full')}
+          key={id}
+          book={{id, cover, title}}
+        />
       ))}
     </ul>
   </div>
