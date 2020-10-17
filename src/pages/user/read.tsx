@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import gql from 'graphql-tag';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Layout} from '~/components/layouts/Layout';
-import {LoadingLayout} from '~/components/layouts/LoadingLayout';
-import {Bookshelf} from '~/components/page/Bookshelf';
+import {Bookshelf} from '~/components/Bookshelf/Bookshelf';
+import {Layout} from '~/components/Layout/DefaultLayout';
+import {LoadingLayout} from '~/components/Layout/LoadingLayout';
 import {
   useGetReadBooksQuery,
   useGetReadingBooksQuery,

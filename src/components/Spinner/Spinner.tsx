@@ -3,9 +3,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import React from 'react';
 
-export interface ContainerProps {
+export type ContainerProps = {
   className?: string;
-}
+};
 
 export const Spinner: React.FC<ContainerProps> = ({className}) => {
   return (

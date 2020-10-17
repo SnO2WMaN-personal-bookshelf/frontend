@@ -4,8 +4,8 @@ import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {Merge} from 'type-fest';
+import {Spinner} from '~/components/Spinner/Spinner';
 import {useGetBookshelfFromIdQuery} from '~~/generated/graphql';
-import {Spinner} from '../Spinner';
 
 export type BookType = {
   id: string;
