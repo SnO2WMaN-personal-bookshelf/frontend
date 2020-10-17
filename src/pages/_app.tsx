@@ -25,8 +25,12 @@ export const App: React.FC<Props> = ({Component, pageProps}) => {
       domain={process.env.NEXT_PUBLIC_DOMAIN!}
       clientId={process.env.NEXT_PUBLIC_CLIENT_ID!}
       audience={process.env.NEXT_PUBLIC_AUDIENCE!}
-      redirectUri={typeof window !== 'undefined' && window.location.origin}
       onRedirectCallback={onRedirectCallback}
+      // eslint-disable-next-line @shopify/jsx-no-complex-expressions
+      redirectUri={
+        // eslint-disable-next-line no-negated-condition
+        typeof window !== 'undefined' ? window.location.origin : undefined
+      }
     >
       <Auth0AuthorizedApolloProvider
         apiEndpoint={process.env.GRAPHQL_API_ENDPOINT!}
