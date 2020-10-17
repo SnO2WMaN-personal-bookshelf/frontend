@@ -4,8 +4,11 @@ documents:
   - 'src/queries/*.graphql'
   - 'src/{pages,components}/**/*.{ts,tsx}'
 generates:
-  generated/graphql.ts:
+  generated/graphql-codegen/graphql-request.ts:
     plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-graphql-request'
   generated/graphql-codegen/apollo.ts:
     plugins:
       - 'typescript'

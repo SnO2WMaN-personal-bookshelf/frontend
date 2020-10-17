@@ -1,30 +1,72 @@
+import gql from 'graphql-tag';
+import {Maybe} from 'graphql/jsutils/Maybe';
+import {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {useRouter} from 'next/router';
 import React from 'react';
-import {useGetBookQuery} from '~~/generated/graphql';
+import {Layout} from '~/components/Layout/DefaultLayout';
+import {LoadingLayout} from '~/components/Layout/LoadingLayout';
+import {GraphQLRequestSDK} from '~/lib/graphql-request';
 
-export function BookPage() {
-  const router = useRouter();
-  const {id} = router.query;
-
-  const {data, loading} = useGetBookQuery({
-    variables: {
-      id: id as string,
-    },
-  });
-
-  if (loading || !data) {
-    return <p>Loading</p>;
+export const GetBookQuery = gql`
+  query GetBook($id: ID!) {
+    book(id: $id) {
+      id
+      title
+      isbn
+      cover
+    }
   }
+`;
+
+export const GetAllBookIDsQuery = gql`
+  query GetAllBookIDs {
+    getAllBookIDs
+  }
+`;
+
+export type PageProps = {
+  id: string;
+  title: string;
+  isbn?: Maybe<string>;
+  cover?: Maybe<string>;
+};
+export const BookPage: NextPage<PageProps> = ({
+  title,
+  children,
+  cover,
+  isbn,
+}) => {
+  const router = useRouter();
+
+  if (router.isFallback) return <LoadingLayout />;
 
   return (
-    !loading &&
-    data && (
-      <main>
-        <p>{data.book.title}</p>
-        {data.book.cover && <img src={data.book.cover} alt={data.book.title} />}
-        {data.book.isbn && <p>{data.book.isbn}</p>}
-      </main>
-    )
+    <Layout>
+      <p>{title}</p>
+      {cover && <img src={cover} alt={title} />}
+      {isbn && <p>{isbn}</p>}
+    </Layout>
   );
-}
+};
+
+export type UrlQuery = {id: string};
+export const getStaticProps: GetStaticProps<PageProps, UrlQuery> = async ({
+  params,
+}) => {
+  if (!params?.id) throw new Error('');
+
+  return GraphQLRequestSDK.GetBook({
+    id: params.id,
+  }).then(({book}) => ({
+    props: book,
+  }));
+};
+
+export const getStaticPaths: GetStaticPaths<UrlQuery> = async () => {
+  return GraphQLRequestSDK.GetAllBookIDs().then(({getAllBookIDs}) => ({
+    paths: getAllBookIDs.map((id) => ({params: {id}})) || [],
+    fallback: true,
+  }));
+};
+
 export default BookPage;
