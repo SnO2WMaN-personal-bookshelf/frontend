@@ -5,7 +5,7 @@ import {useTranslation} from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {Merge} from 'type-fest';
 import {Spinner} from '~/components/Spinner/Spinner';
-import {useGetBookshelfFromIdQuery} from '~~/generated/graphql';
+import {useGetBookshelfFromIdQuery} from '~~/generated/graphql-codegen/apollo';
 import {BookLink} from './BookLink';
 
 export const Query = gql`
