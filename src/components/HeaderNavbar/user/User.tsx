@@ -1,9 +1,20 @@
 import {useAuth0} from '@auth0/auth0-react';
 import clsx from 'clsx';
+import gql from 'graphql-tag';
 import React from 'react';
 import styled from 'styled-components';
 import {Merge} from 'type-fest';
 import {Dropdown} from './Dropdown';
+
+export const Query = gql`
+  query GetUserForHeaderNav {
+    currentUser {
+      name
+      displayName
+      picture
+    }
+  }
+`;
 
 export type ComponentProps = Merge<
   Props,

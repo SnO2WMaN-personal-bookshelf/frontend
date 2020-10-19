@@ -26,17 +26,25 @@ export const MenuButtonOutline: React.FC<{
 export const MenuLinkButton: React.FC<{
   className?: string;
   icon: IconDefinition;
-  href: string;
-}> = ({children, href, className, icon}) => (
-  <MenuButtonOutline className={className}>
-    <Link href={href} passHref>
-      <a className={clsx('w-full', 'px-5', 'py-3', 'text-left')}>
-        <FontAwesomeIcon icon={icon} fixedWidth className={clsx('mr-2')} />
-        {children}
-      </a>
-    </Link>
-  </MenuButtonOutline>
-);
+  href?: string;
+}> = ({children, href, className, icon}) => {
+  const contents = (
+    <div className={clsx('w-full', 'px-5', 'py-3', 'text-left')}>
+      <FontAwesomeIcon icon={icon} fixedWidth className={clsx('mr-2')} />
+      {children}
+    </div>
+  );
+  return (
+    <MenuButtonOutline className={className}>
+      {href && (
+        <Link href={href} passHref>
+          <a className={clsx('w-full')}>{contents}</a>
+        </Link>
+      )}
+      {!href && contents}
+    </MenuButtonOutline>
+  );
+};
 
 export const MenuButton: React.FC<{
   className?: string;
