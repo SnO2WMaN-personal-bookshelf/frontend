@@ -5,9 +5,9 @@ import {AppProps} from 'next/app';
 import Router from 'next/router';
 import React from 'react';
 import {I18nextProvider} from 'react-i18next';
-import {Auth0AuthorizedApolloProvider} from '~/apollo/Auth0AuthorizedApolloProvider';
 import {HeaderNav} from '~/components/HeaderNavbar/HeaderNav';
 import i18n from '~/i18n';
+import {Auth0AuthorizedApolloProvider} from '~/lib/Auth0AuthorizedApolloProvider';
 import '~/styles/index.css';
 import '~/styles/tailwind.css';
 
