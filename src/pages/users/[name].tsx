@@ -6,6 +6,7 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Layout} from '~/components/Layout/DefaultLayout';
 import {LoadingLayout} from '~/components/Layout/LoadingLayout';
+import {UserPageMenu} from '~/components/UserPageMenu/UserPageMenu';
 import {GraphQLRequestSDK} from '~/lib/graphql-request';
 
 export const GetUserForUserPageQuery = gql`
@@ -59,7 +60,7 @@ export const GetUserForUserPageQuery = gql`
 `;
 
 export const GetAllUsersNameQuery = gql`
-  query GetAllUsersName {
+  query GetAllUserNames {
     allUsers {
       name
     }
@@ -115,47 +116,12 @@ export const BookPage: NextPage<PageProps> = ({
       <div
         className={clsx('max-w-screen-lg', 'mx-auto', 'flex', 'items-center')}
       >
-        <ul className={clsx('w-full', 'flex')}>
-          <li className={clsx('px-4', 'py-2')}>
-            {t('読みたい本')}
-            <span
-              className={clsx(
-                'px-2',
-                'rounded-lg',
-                'bg-gray-600',
-                'text-gray-200',
-              )}
-            >
-              {readBooks.books.totalItems}
-            </span>
-          </li>
-          <li className={clsx('px-4', 'py-2')}>
-            {t('読んでいる本')}
-            <span
-              className={clsx(
-                'px-2',
-                'rounded-lg',
-                'bg-gray-600',
-                'text-gray-200',
-              )}
-            >
-              {readingBooks.books.totalItems}
-            </span>
-          </li>
-          <li className={clsx('px-4', 'py-2')}>
-            {t('読みたい本')}
-            <span
-              className={clsx(
-                'px-2',
-                'rounded-lg',
-                'bg-gray-600',
-                'text-gray-200',
-              )}
-            >
-              {wishBooks.books.totalItems}
-            </span>
-          </li>
-        </ul>
+        <UserPageMenu
+          className={clsx('w-full')}
+          readBooksTotal={readBooks.books.totalItems}
+          readingBooksTotal={readingBooks.books.totalItems}
+          wishBooksTotal={wishBooks.books.totalItems}
+        />
       </div>
     </Layout>
   );
@@ -177,7 +143,7 @@ export const getStaticProps: GetStaticProps<PageProps, UrlQuery> = async ({
 };
 
 export const getStaticPaths: GetStaticPaths<UrlQuery> = async () => {
-  const {allUsers} = await GraphQLRequestSDK.GetAllUsersName();
+  const {allUsers} = await GraphQLRequestSDK.GetAllUserNames();
   return {
     paths: allUsers.map(({name}) => ({
       params: {name},
