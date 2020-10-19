@@ -20,7 +20,9 @@ export const GetBookQuery = gql`
 
 export const GetAllBookIDsQuery = gql`
   query GetAllBookIDs {
-    getAllBookIDs
+    allBooks {
+      id
+    }
   }
 `;
 
@@ -63,10 +65,14 @@ export const getStaticProps: GetStaticProps<PageProps, UrlQuery> = async ({
 };
 
 export const getStaticPaths: GetStaticPaths<UrlQuery> = async () => {
-  return GraphQLRequestSDK.GetAllBookIDs().then(({getAllBookIDs}) => ({
-    paths: getAllBookIDs.map((id) => ({params: {id}})) || [],
+  const {allBooks} = await GraphQLRequestSDK.GetAllBookIDs();
+
+  return {
+    paths: allBooks.map(({id}) => ({
+      params: {id},
+    })),
     fallback: true,
-  }));
+  };
 };
 
 export default BookPage;
