@@ -4,9 +4,9 @@ import {useTranslation} from 'react-i18next';
 import {Merge} from 'type-fest';
 
 export type ComponentProps = Merge<
-  Pick<Props, 'className' | 'total'>,
+  Pick<ContainerProps, 'className' | 'total'>,
   {
-    i18n: Props['i18n'];
+    i18n: ContainerProps['i18n'];
   }
 >;
 export const Component: React.FC<ComponentProps> = ({
@@ -42,12 +42,12 @@ export const Component: React.FC<ComponentProps> = ({
   </li>
 );
 
-export type Props = {
+export type ContainerProps = {
   className?: string;
   total: number;
   i18n: {[key in 'title']: string};
 };
-export const UserPageMenuColumn: React.FC<Props> = (props) => {
+export const Container: React.FC<ContainerProps> = (props) => {
   const {t} = useTranslation();
 
   return <Component {...props} />;

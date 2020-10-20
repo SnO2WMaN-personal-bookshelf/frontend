@@ -3,10 +3,10 @@ import gql from 'graphql-tag';
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {useRouter} from 'next/router';
 import React from 'react';
-import {useTranslation} from 'react-i18next';
+import {Merge} from 'type-fest';
 import {Layout} from '~/components/Layout/DefaultLayout';
 import {LoadingLayout} from '~/components/Layout/LoadingLayout';
-import {UserPageMenu} from '~/components/UserPageMenu/UserPageMenu';
+import {UserPage, UserPageProps} from '~/components/UserPage';
 import {GraphQLRequestSDK} from '~/lib/graphql-request';
 
 export const GetUserForUserPageQuery = gql`
@@ -18,7 +18,7 @@ export const GetUserForUserPageQuery = gql`
       displayName
       readBooks {
         id
-        books(first: 7) {
+        books(first: 10) {
           totalItems
           edges {
             node {
@@ -31,7 +31,7 @@ export const GetUserForUserPageQuery = gql`
       }
       readingBooks {
         id
-        books(first: 7) {
+        books(first: 10) {
           totalItems
           edges {
             node {
@@ -44,7 +44,7 @@ export const GetUserForUserPageQuery = gql`
       }
       wishBooks {
         id
-        books(first: 7) {
+        books(first: 10) {
           totalItems
           edges {
             node {
@@ -67,62 +67,19 @@ export const GetAllUsersNameQuery = gql`
   }
 `;
 
-export type PageProps = {
-  id: string;
-  name: string;
-  displayName: string;
-  picture: string;
-  readBooks: {books: {totalItems: number}};
-  readingBooks: PageProps['readBooks'];
-  wishBooks: PageProps['readBooks'];
-};
-export const BookPage: NextPage<PageProps> = ({
-  children,
-  name,
-  displayName,
-  picture,
-  readBooks,
-  readingBooks,
-  wishBooks,
-}) => {
+export type PageProps = Merge<
+  {
+    id: string;
+  },
+  UserPageProps
+>;
+export const BookPage: NextPage<PageProps> = ({children, ...rest}) => {
   const router = useRouter();
-  const {t} = useTranslation();
-
   if (router.isFallback) return <LoadingLayout />;
 
   return (
     <Layout className={clsx('py-8')}>
-      <div
-        className={clsx(
-          'max-w-screen-lg',
-          'mx-auto',
-          'mb-4',
-          'flex',
-          'items-center',
-        )}
-      >
-        <div className={clsx('mr-4')}>
-          <img
-            src={picture}
-            alt={displayName}
-            className={clsx('w-32', 'h-32', 'rounded-lg')}
-          />
-        </div>
-        <div className={clsx('flex', 'flex-col')}>
-          <span className={clsx('text-2xl')}>{displayName}</span>
-          <span className={clsx('text-gray-600')}>@{name}</span>
-        </div>
-      </div>
-      <div
-        className={clsx('max-w-screen-lg', 'mx-auto', 'flex', 'items-center')}
-      >
-        <UserPageMenu
-          className={clsx('w-full')}
-          readBooksTotal={readBooks.books.totalItems}
-          readingBooksTotal={readingBooks.books.totalItems}
-          wishBooksTotal={wishBooks.books.totalItems}
-        />
-      </div>
+      <UserPage {...rest} />
     </Layout>
   );
 };
@@ -139,7 +96,27 @@ export const getStaticProps: GetStaticProps<PageProps, UrlQuery> = async ({
 
   if (!user) throw new Error('');
 
-  return {props: user};
+  const {readBooks, readingBooks, wishBooks, ...rest} = user;
+  return {
+    props: {
+      ...rest,
+      readBooks: {
+        ...readBooks,
+        total: readBooks.books.totalItems,
+        books: readBooks.books.edges?.map(({node}) => ({...node})) || [],
+      },
+      readingBooks: {
+        ...readingBooks,
+        total: readingBooks.books.totalItems,
+        books: readingBooks.books.edges?.map(({node}) => ({...node})) || [],
+      },
+      wishBooks: {
+        ...wishBooks,
+        total: wishBooks.books.totalItems,
+        books: wishBooks.books.edges?.map(({node}) => ({...node})) || [],
+      },
+    },
+  };
 };
 
 export const getStaticPaths: GetStaticPaths<UrlQuery> = async () => {

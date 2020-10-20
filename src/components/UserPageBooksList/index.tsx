@@ -1,0 +1,1 @@
+export {UserPageBooksList} from './UserPageBooksList';
