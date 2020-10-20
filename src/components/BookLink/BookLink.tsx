@@ -4,15 +4,17 @@ import React from 'react';
 import {Merge} from 'type-fest';
 
 export type ComponentProps = Merge<
-  Pick<Props, 'className'>,
-  Merge<Props['book'], {href: string}>
+  Pick<ContainerProps, 'className'>,
+  ContainerProps['book'] & {
+    href: string;
+  }
 >;
 export const Component: React.FC<ComponentProps> = ({
   className,
-  id,
-  title,
   cover,
   href,
+  title,
+  id,
 }) => (
   <li className={clsx(className)}>
     <Link href={href} passHref>
@@ -23,7 +25,7 @@ export const Component: React.FC<ComponentProps> = ({
   </li>
 );
 
-export type Props = {
+export type ContainerProps = {
   className?: string;
   book: {
     cover?: string;
@@ -31,6 +33,8 @@ export type Props = {
     title: string;
   };
 };
-export const BookLink: React.FC<Props> = ({book, ...rest}) => {
-  return <Component {...rest} {...book} href={`/books/${book.id}`} />;
+export const Container: React.FC<ContainerProps> = (props) => {
+  return (
+    <Component {...props} {...props.book} href={`/books/${props.book.id}`} />
+  );
 };

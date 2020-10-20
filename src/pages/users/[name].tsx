@@ -4,8 +4,8 @@ import {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {useRouter} from 'next/router';
 import React from 'react';
 import {Merge} from 'type-fest';
-import {Layout} from '~/components/Layout/DefaultLayout';
-import {LoadingLayout} from '~/components/Layout/LoadingLayout';
+import {LayoutDefault} from '~/components/LayoutDefault';
+import {LayoutLoading} from '~/components/LayoutLoading';
 import {UserPage, UserPageProps} from '~/components/UserPage';
 import {GraphQLRequestSDK} from '~/lib/graphql-request';
 
@@ -75,12 +75,12 @@ export type PageProps = Merge<
 >;
 export const BookPage: NextPage<PageProps> = ({children, ...rest}) => {
   const router = useRouter();
-  if (router.isFallback) return <LoadingLayout />;
+  if (router.isFallback) return <LayoutLoading />;
 
   return (
-    <Layout className={clsx('py-8')}>
+    <LayoutDefault className={clsx('py-8')}>
       <UserPage {...rest} />
-    </Layout>
+    </LayoutDefault>
   );
 };
 

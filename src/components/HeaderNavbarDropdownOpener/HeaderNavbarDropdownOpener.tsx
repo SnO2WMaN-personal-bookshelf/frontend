@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import React from 'react';
 import styled from 'styled-components';
 import {Merge} from 'type-fest';
-import {Dropdown} from './Dropdown';
+import {HeaderNavbarDropdown} from '~/components/HeaderNavbarDropdown';
 
 export const Query = gql`
   query GetUserForHeaderNav {
@@ -17,7 +17,7 @@ export const Query = gql`
 `;
 
 export type ComponentProps = Merge<
-  Props,
+  ContainerProps,
   {
     picture: string;
     name: string;
@@ -34,7 +34,7 @@ export const ComponentBase: React.FC<ComponentProps> = ({
         <img src={picture} alt={name} className={clsx('h-8', 'rounded')} />
       </div>
     </summary>
-    <Dropdown
+    <HeaderNavbarDropdown
       className={clsx('absolute', 'min-w-full', 'mt-1', 'right-0', 'z-50')}
     />
   </details>
@@ -60,10 +60,10 @@ export const Component = styled(ComponentBase)`
   }
 `;
 
-export type Props = {
+export type ContainerProps = {
   className?: string;
 };
-export const User: React.FC<Props> = (props) => {
+export const Container: React.FC<ContainerProps> = (props) => {
   const {user} = useAuth0();
 
   return <Component {...props} {...user} />;

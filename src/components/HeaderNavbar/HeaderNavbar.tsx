@@ -3,20 +3,16 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import React from 'react';
 import {Merge} from 'type-fest';
-import {User} from './user/User';
+import {HeaderNavbarDropdownOpener} from '~/components/HeaderNavbarDropdownOpener';
 
-export type ContainerProps = {
-  className?: string;
-};
-export type Props = Merge<
+export type ComponentProps = Merge<
   ContainerProps,
   {
-    login(): void;
     isAuthenticated: boolean;
+    login(): void;
   }
 >;
-
-export const Component: React.FC<Props> = ({
+export const Component: React.FC<ComponentProps> = ({
   className,
   isAuthenticated,
   login,
@@ -37,13 +33,16 @@ export const Component: React.FC<Props> = ({
             Login
           </button>
         )}
-        {isAuthenticated && <User />}
+        {isAuthenticated && <HeaderNavbarDropdownOpener />}
       </div>
     </div>
   </nav>
 );
 
-export const HeaderNav: React.FC<ContainerProps> = ({...props}) => {
+export type ContainerProps = {
+  className?: string;
+};
+export const Container: React.FC<ContainerProps> = (props) => {
   const {isAuthenticated, loginWithRedirect} = useAuth0();
 
   return (

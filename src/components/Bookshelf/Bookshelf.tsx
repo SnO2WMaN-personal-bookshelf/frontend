@@ -4,9 +4,9 @@ import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {Merge} from 'type-fest';
+import {BookLink} from '~/components/BookLink';
 import {Spinner} from '~/components/Spinner/Spinner';
 import {useGetBookshelfFromIdQuery} from '~~/generated/graphql-codegen/apollo';
-import {BookLink} from './BookLink';
 
 export const Query = gql`
   query getBookshelfFromId($id: ID!, $endCursor: String) {
@@ -31,7 +31,7 @@ export const Query = gql`
 `;
 
 export type ComponentProps = Merge<
-  Pick<Props, 'className'>,
+  Pick<ContainerProps, 'className'>,
   {
     books: {id: string; cover?: string; title: string}[];
     i18n: {
@@ -58,8 +58,8 @@ export const Component: React.FC<ComponentProps> = ({
   </div>
 );
 
-export type Props = {className?: string; id: string};
-export const Bookshelf: React.FC<Props> = ({id, ...props}) => {
+export type ContainerProps = {className?: string; id: string};
+export const Container: React.FC<ContainerProps> = ({id, ...props}) => {
   const {t, i18n} = useTranslation();
 
   const {data, error, loading, fetchMore} = useGetBookshelfFromIdQuery({

@@ -1,7 +1,7 @@
 import {useRouter} from 'next/router';
 import React from 'react';
-import {Bookshelf} from '~/components/Bookshelf/Bookshelf';
-import {Layout} from '~/components/Layout/DefaultLayout';
+import {Container} from '~/components/Bookshelf/Bookshelf';
+import {LayoutDefault} from '~/components/LayoutDefault';
 
 export function OutBookshelfPage() {
   const router = useRouter();
@@ -9,9 +9,9 @@ export function OutBookshelfPage() {
 
   if (id && typeof id === 'string')
     return (
-      <Layout>
-        <Bookshelf id={id} />
-      </Layout>
+      <LayoutDefault>
+        <Container id={id} />
+      </LayoutDefault>
     );
   return <p>LOADING?</p>;
 }

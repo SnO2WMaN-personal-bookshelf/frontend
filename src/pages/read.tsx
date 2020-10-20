@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import gql from 'graphql-tag';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Bookshelf} from '~/components/Bookshelf/Bookshelf';
-import {Layout} from '~/components/Layout/DefaultLayout';
-import {LoadingLayout} from '~/components/Layout/LoadingLayout';
+import {Container} from '~/components/Bookshelf/Bookshelf';
+import {LayoutDefault} from '~/components/LayoutDefault';
+import {LayoutLoading} from '~/components/LayoutLoading';
 import {
   useGetReadBooksQuery,
   useGetReadingBooksQuery,
@@ -34,7 +34,7 @@ export const BooksPage: React.FC<{
 
   const {data, error, loading} = useQuery();
 
-  if (loading || !data) return <LoadingLayout />;
+  if (loading || !data) return <LayoutLoading />;
   if (error)
     return (
       <main>
@@ -43,12 +43,12 @@ export const BooksPage: React.FC<{
     );
 
   return (
-    <Layout>
+    <LayoutDefault>
       <h1 className={clsx('text-xl')}>
         {t(i18nKeys.title, {name: data.currentUser.displayName})}
       </h1>
-      <Bookshelf id={data.currentUser.books.id} />
-    </Layout>
+      <Container id={data.currentUser.books.id} />
+    </LayoutDefault>
   );
 };
 

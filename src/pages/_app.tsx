@@ -5,7 +5,7 @@ import {AppProps} from 'next/app';
 import Router from 'next/router';
 import React from 'react';
 import {I18nextProvider} from 'react-i18next';
-import {HeaderNav} from '~/components/HeaderNavbar/HeaderNav';
+import {HeaderNavbar} from '~/components/HeaderNavbar';
 import i18n from '~/i18n';
 import {Auth0AuthorizedApolloProvider} from '~/lib/Auth0AuthorizedApolloProvider';
 import '~/styles/index.css';
@@ -39,7 +39,7 @@ export const App: React.FC<Props> = ({Component, pageProps}) => {
         }}
       >
         <I18nextProvider i18n={i18n}>
-          <HeaderNav
+          <HeaderNavbar
             className={clsx('w-full', 'sticky', 'top-0', 'left-0', 'shadow-md')}
           />
           <Component {...pageProps} />

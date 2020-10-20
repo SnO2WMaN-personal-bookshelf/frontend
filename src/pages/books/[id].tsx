@@ -3,8 +3,8 @@ import {Maybe} from 'graphql/jsutils/Maybe';
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {useRouter} from 'next/router';
 import React from 'react';
-import {Layout} from '~/components/Layout/DefaultLayout';
-import {LoadingLayout} from '~/components/Layout/LoadingLayout';
+import {LayoutDefault} from '~/components/LayoutDefault';
+import {LayoutLoading} from '~/components/LayoutLoading';
 import {GraphQLRequestSDK} from '~/lib/graphql-request';
 
 export const GetBookQuery = gql`
@@ -40,14 +40,14 @@ export const BookPage: NextPage<PageProps> = ({
 }) => {
   const router = useRouter();
 
-  if (router.isFallback) return <LoadingLayout />;
+  if (router.isFallback) return <LayoutLoading />;
 
   return (
-    <Layout>
+    <LayoutDefault>
       <p>{title}</p>
       {cover && <img src={cover} alt={title} />}
       {isbn && <p>{isbn}</p>}
-    </Layout>
+    </LayoutDefault>
   );
 };
 

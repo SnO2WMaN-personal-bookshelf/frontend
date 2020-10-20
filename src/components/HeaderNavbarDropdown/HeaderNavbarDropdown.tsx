@@ -1,4 +1,3 @@
-import {useAuth0} from '@auth0/auth0-react';
 import {
   faBook,
   faBookmark,
@@ -13,8 +12,8 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 import {Merge} from 'type-fest';
+import {HeaderNavbarDropdownButton} from '~/components/HeaderNavbarDropdownButton';
 import {useGetUserForHeaderNavDropdownQuery} from '~~/generated/graphql-codegen/apollo';
-import {MenuButton, MenuLinkButton} from './MenuButton';
 
 export const Query = gql`
   query GetUserForHeaderNavDropdown {
@@ -25,24 +24,25 @@ export const Query = gql`
 `;
 
 export type ComponentProps = Merge<
-  Props,
+  ContainerProps,
   {
-    logout(): void;
     href: {
       profile?: string;
       readBooks: string;
       readingBooks: string;
       wishBooks: string;
       settings: string;
+      logout: string;
     };
-    i18n: {
-      [key in keyof ComponentProps['href'] | 'signOut']: string;
-    };
+    i18n: Required<
+      {
+        [key in keyof ComponentProps['href']]: string;
+      }
+    >;
   }
 >;
-export const ComponentBase: React.FC<ComponentProps> = ({
+export const Component: React.FC<ComponentProps> = ({
   className,
-  logout,
   i18n,
   href,
 }) => (
@@ -61,50 +61,48 @@ export const ComponentBase: React.FC<ComponentProps> = ({
     )}
   >
     <ul className={clsx()}>
-      <MenuLinkButton icon={faUser} href={href.profile}>
+      <HeaderNavbarDropdownButton icon={faUser} href={href.profile}>
         {i18n.profile}
-      </MenuLinkButton>
+      </HeaderNavbarDropdownButton>
     </ul>
     <ul className={clsx()}>
-      <MenuLinkButton icon={faBook} href={href.readBooks}>
+      <HeaderNavbarDropdownButton icon={faBook} href={href.readBooks}>
         {i18n.readBooks}
-      </MenuLinkButton>
-      <MenuLinkButton icon={faBookOpen} href={href.readingBooks}>
+      </HeaderNavbarDropdownButton>
+      <HeaderNavbarDropdownButton icon={faBookOpen} href={href.readingBooks}>
         {i18n.readingBooks}
-      </MenuLinkButton>
-      <MenuLinkButton icon={faBookmark} href={href.wishBooks}>
+      </HeaderNavbarDropdownButton>
+      <HeaderNavbarDropdownButton icon={faBookmark} href={href.wishBooks}>
         {i18n.wishBooks}
-      </MenuLinkButton>
+      </HeaderNavbarDropdownButton>
     </ul>
     <ul className={clsx()}>
-      <MenuLinkButton icon={faCog} href={href.settings}>
+      <HeaderNavbarDropdownButton icon={faCog} href={href.settings}>
         {i18n.settings}
-      </MenuLinkButton>
-      <MenuButton icon={faSignOutAlt} onClick={logout}>
-        {i18n.signOut}
-      </MenuButton>
+      </HeaderNavbarDropdownButton>
+      <HeaderNavbarDropdownButton icon={faSignOutAlt} href={href.logout}>
+        {i18n.logout}
+      </HeaderNavbarDropdownButton>
     </ul>
   </div>
 );
-
-export const Component = styled(ComponentBase)`
+export const StyledComponent = styled(Component)`
   backdrop-filter: blur(2px);
 `;
 
-export type Props = {className?: string};
-export const Dropdown: React.FC<Props> = (props) => {
-  const {logout} = useAuth0();
+export type ContainerProps = {
+  className?: string;
+};
+export const Container: React.FC<ContainerProps> = (props) => {
   const {t, i18n} = useTranslation();
 
   const {data} = useGetUserForHeaderNavDropdownQuery();
-
   return (
-    <Component
+    <StyledComponent
       {...props}
-      logout={logout}
       i18n={{
         profile: t('common:profile'),
-        signOut: t('common:sign_out'),
+        logout: t('common:sign_out'),
         settings: t('common:settings'),
         readBooks: t('読んだ本'),
         readingBooks: t('読んでいる本'),
@@ -116,6 +114,7 @@ export const Dropdown: React.FC<Props> = (props) => {
         readingBooks: '/reading',
         wishBooks: '/wish',
         settings: '/settings',
+        logout: '/logout',
       }}
     />
   );
