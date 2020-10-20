@@ -6,8 +6,10 @@
     ".prettierrc": "jsonc",
     ".stylelintrc": "jsonc",
     ".optipackrc": "jsonc",
-    ".renovaterc": "jsonc"
+    ".renovaterc": "jsonc",
+    "*.ejs.t": "html"
   },
+  "stylelint.enable": false,
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,

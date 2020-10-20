@@ -5,3 +5,7 @@ coverage/
 .next/
 dist/
 generated/
+
+# hygen
+!.hygen/
+!.hygen.js
