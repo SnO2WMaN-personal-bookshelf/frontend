@@ -11,20 +11,20 @@ module.exports = {
       },
       {
         type: 'input',
-        name: 'dir',
-        message: 'Base directory',
-      },
-      {
-        type: 'input',
         name: 'tag',
         message: 'Component tag name',
         default: 'div',
       },
+      {
+        type: 'confirm',
+        name: 'have_graphql',
+        message: 'GraphQL Query?',
+      },
     ];
     return inquirer.prompt(questions).then((answers) => {
-      const {component_name, dir, tag} = answers;
+      const {component_name, tag} = answers;
 
-      const dir_path = path.join(dir, component_name);
+      const dir_path = path.join(component_name);
       const abs_path = path.join(process.cwd(), 'src', 'components', dir_path);
 
       return {
