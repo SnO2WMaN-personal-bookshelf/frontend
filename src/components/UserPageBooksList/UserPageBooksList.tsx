@@ -4,7 +4,10 @@ import styled from 'styled-components';
 import {Merge} from 'type-fest';
 import {BookLinkProps} from '~/components/BookLink';
 
-export type ComponentProps = Merge<Pick<Props, 'className' | 'books'>, unknown>;
+export type ComponentProps = Merge<
+  Pick<ContainerProps, 'className' | 'books'>,
+  unknown
+>;
 export const ComponentBase: React.FC<ComponentProps> = ({className, books}) => (
   <div
     className={clsx(
@@ -31,10 +34,10 @@ export const ComponentBase: React.FC<ComponentProps> = ({className, books}) => (
 
 export const Component = styled(ComponentBase)``;
 
-export type Props = {
+export type ContainerProps = {
   className?: string;
   books: BookLinkProps['book'][];
 };
-export const UserPageBooksList: React.FC<Props> = (props) => {
+export const Container: React.FC<ContainerProps> = (props) => {
   return <Component {...props} />;
 };

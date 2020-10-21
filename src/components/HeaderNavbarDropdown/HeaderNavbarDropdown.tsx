@@ -41,7 +41,7 @@ export type ComponentProps = Merge<
     >;
   }
 >;
-export const Component: React.FC<ComponentProps> = ({
+export const ComponentBase: React.FC<ComponentProps> = ({
   className,
   i18n,
   href,
@@ -86,7 +86,7 @@ export const Component: React.FC<ComponentProps> = ({
     </ul>
   </div>
 );
-export const StyledComponent = styled(Component)`
+export const Component = styled(ComponentBase)`
   backdrop-filter: blur(2px);
 `;
 
@@ -98,7 +98,7 @@ export const Container: React.FC<ContainerProps> = (props) => {
 
   const {data} = useGetUserForHeaderNavDropdownQuery();
   return (
-    <StyledComponent
+    <Component
       {...props}
       i18n={{
         profile: t('common:profile'),

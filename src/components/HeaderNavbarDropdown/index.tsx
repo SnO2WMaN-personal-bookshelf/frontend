@@ -1,5 +1,5 @@
 export {
-  Component,
+  ComponentBase as Component,
   Container as HeaderNavbarDropdown,
 } from './HeaderNavbarDropdown';
 export type {
