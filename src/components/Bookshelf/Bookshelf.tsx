@@ -46,13 +46,11 @@ export const Component: React.FC<ComponentProps> = ({
 }) => (
   <div className={clsx(className)}>
     <p>{i18n.bookCounts}</p>
-    <ul className={clsx('grid', 'grid-cols-8')}>
+    <ul className={clsx('grid', 'grid-cols-8', 'gap-4')}>
       {books.map(({cover, title, id}) => (
-        <BookLink
-          className={clsx('h-full')}
-          key={id}
-          book={{id, cover, title}}
-        />
+        <li key={id}>
+          <BookLink className={clsx('h-full')} book={{id, cover, title}} />
+        </li>
       ))}
     </ul>
   </div>

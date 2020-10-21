@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 import styled from 'styled-components';
 import {Merge} from 'type-fest';
-import {BookLinkProps} from '~/components/BookLink';
+import {BookLink, BookLinkProps} from '~/components/BookLink';
 
 export type ComponentProps = Merge<
   Pick<ContainerProps, 'className' | 'books'>,
@@ -17,16 +17,21 @@ export const ComponentBase: React.FC<ComponentProps> = ({className, books}) => (
       'py-4',
     )}
   >
-    <ul className={clsx('flex', 'min-w-full', 'h-full', 'space-x-4')}>
+    <ul
+      className={clsx(
+        'space-x-2',
+        'flex',
+        'flex-row',
+        'flex-no-wrap',
+        'space-x-4',
+        'min-w-full',
+        'h-full',
+      )}
+    >
       {books.map((book) => (
-        <img
-          className={clsx('h-full')}
-          key={book.id}
-          src={book.cover}
-          alt={book.title}
-        />
-
-        /* <BookLink className={clsx()} book={book} key={book.id} />*/
+        <li className={clsx('flex-none')} key={book.id}>
+          <BookLink book={book} />
+        </li>
       ))}
     </ul>
   </div>

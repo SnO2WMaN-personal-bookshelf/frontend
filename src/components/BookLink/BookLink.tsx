@@ -16,13 +16,11 @@ export const Component: React.FC<ComponentProps> = ({
   title,
   id,
 }) => (
-  <li className={clsx(className)}>
-    <Link href={href} passHref>
-      <a className={clsx('h-full', 'flex')}>
-        <img src={cover} alt={title} />
-      </a>
-    </Link>
-  </li>
+  <Link href={href} passHref>
+    <a className={clsx(className, 'h-full', 'flex')}>
+      <img className={clsx('object-scale-down')} src={cover} alt={title} />
+    </a>
+  </Link>
 );
 
 export type ContainerProps = {
