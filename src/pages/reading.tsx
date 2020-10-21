@@ -8,7 +8,7 @@ export const Query = gql`
   query GetReadingBooks {
     currentUser {
       displayName
-      books: wishBooks {
+      books: readingBooks {
         id
       }
     }
