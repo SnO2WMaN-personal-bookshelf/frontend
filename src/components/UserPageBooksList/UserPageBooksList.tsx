@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 import styled from 'styled-components';
 import {Merge} from 'type-fest';
-import {Props as BookLinkProps} from '~/components/Bookshelf/BookLink';
+import {BookLinkProps} from '~/components/BookLink';
 
 export type ComponentProps = Merge<Pick<Props, 'className' | 'books'>, unknown>;
 export const ComponentBase: React.FC<ComponentProps> = ({className, books}) => (
