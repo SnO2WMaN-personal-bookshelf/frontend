@@ -1,8 +1,8 @@
 schema:
   - ${GRAPHQL_API_ENDPOINT}
 documents:
-  - 'src/queries/*.graphql'
-  - 'src/{pages,components}/**/*.{ts,tsx}'
+  - 'src/pages/**/*.tsx'
+  - 'src/components/**/*.graphql'
 generates:
   generated/graphql-codegen/graphql-request.ts:
     plugins:
