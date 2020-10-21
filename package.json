@@ -14,14 +14,15 @@
     "test:watch": "jest --watch",
     "clean": "rimraf dist generated",
     "new:component": "hygen new component",
-    "lint": "run-s -cn lint:*",
+    "lint": "run-s -cn lint:* tscheck",
     "lint:eslint": "eslint . --ext .js,.jsx,.ts,.tsx,.graphql",
     "lint:prettier": "prettier --check **/*.{json,yml,yaml,md,graphql}",
     "lint:stylelint": "stylelint **/*.{css,scss,sass,jsx,tsx}",
     "fmt": "run-s -cn fmt:*",
     "fmt:eslint": "yarn lint:eslint --fix",
     "fmt:prettier": "yarn lint:prettier --write",
-    "fmt:stylelint": "yarn lint:stylelint --fix"
+    "fmt:stylelint": "yarn lint:stylelint --fix",
+    "tscheck": "tsc --noEmit"
   },
   "engines": {
     "node": "12.x",
