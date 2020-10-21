@@ -6,6 +6,9 @@ commit-msg:
 pre-commit:
   parallel: true
   commands:
+    tsc-check:
+      tags: frontend check
+      run: tsc --noEmit
     eslint:
       tags: frontend lint
       files: git diff --name-only --staged
@@ -26,13 +29,22 @@ pre-commit:
       files: git diff --name-only --staged
       glob: '.{eslint,prettier,renovate,optipack}rc'
       run: prettier --check {staged_files} --parser json
-    codecov:
+    validate-codecov:
       tags: infra lint
       files: git diff --name-only --staged
       glob: 'codecov.yml'
       run: cat codecov.yml | curl --data-binary @- https://codecov.io/validate
-    renovate:
+    validate-renovate:
       tags: infra lint
       files: git diff --name-only --staged
       glob: '.renovaterc'
       run: npx --package renovate -c 'renovate-config-validator'
+    validate-circleci:
+      tags: ci lint
+      files: git diff --name-only --staged
+      glob: '.circleci/*.yml'
+      run: |
+        docker run \
+          -v $(pwd)/.circleci:/go/.circleci \
+          -it --rm circleci/circleci-cli \
+          circleci config validate
