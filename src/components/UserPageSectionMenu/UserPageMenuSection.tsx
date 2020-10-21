@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React from 'react';
-import {UserPageMenu} from '~/components/UserPageMenu/UserPageMenu';
+import {UserPageMenu} from '~/components/UserPageMenu';
 
 export type ContainerProps = {
   className?: string;

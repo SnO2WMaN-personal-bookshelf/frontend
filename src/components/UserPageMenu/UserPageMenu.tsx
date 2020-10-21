@@ -5,10 +5,7 @@ import {Merge} from 'type-fest';
 import {UserPageMenuColumn} from '~/components/UserPageMenuColumn';
 
 export type ComponentProps = Merge<
-  Pick<
-    Props,
-    'className' | 'readBooksTotal' | 'readingBooksTotal' | 'wishBooksTotal'
-  >,
+  ContainerProps,
   {i18n: {[key in 'readBooks' | 'readingBooks' | 'wishBooks']: string}}
 >;
 export const Component: React.FC<ComponentProps> = ({
@@ -28,18 +25,21 @@ export const Component: React.FC<ComponentProps> = ({
     )}
   >
     <UserPageMenuColumn
+      href="#read"
       i18n={{
         title: i18n.readBooks,
       }}
       total={readBooksTotal}
     />
     <UserPageMenuColumn
+      href="#reading"
       i18n={{
         title: i18n.readingBooks,
       }}
       total={readingBooksTotal}
     />
     <UserPageMenuColumn
+      href="#wish"
       i18n={{
         title: i18n.wishBooks,
       }}
@@ -49,13 +49,13 @@ export const Component: React.FC<ComponentProps> = ({
   </ul>
 );
 
-export type Props = {
+export type ContainerProps = {
   className?: string;
   readBooksTotal: number;
-  readingBooksTotal: Props['readBooksTotal'];
-  wishBooksTotal: Props['readBooksTotal'];
+  readingBooksTotal: number;
+  wishBooksTotal: number;
 };
-export const UserPageMenu: React.FC<Props> = (props) => {
+export const Container: React.FC<ContainerProps> = (props) => {
   const {t} = useTranslation();
 
   return (

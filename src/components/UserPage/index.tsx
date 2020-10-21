@@ -37,14 +37,14 @@ export const UserPage: React.FC<UserPageProps> = ({
         picture={picture}
       />
       <UserPageSectionMenu
-        className={clsx('mb-12')}
+        className={clsx()}
         readTotal={readBooks.total}
         readingTotal={readingBooks.total}
         wishTotal={wishBooks.total}
       />
       <UserPageSectionBooksList
         id="read"
-        className={clsx('mb-8')}
+        className={clsx('pt-16')}
         books={readBooks.books.map(({cover, ...rest}) => ({
           ...rest,
           cover: cover || undefined,
@@ -53,7 +53,7 @@ export const UserPage: React.FC<UserPageProps> = ({
       />
       <UserPageSectionBooksList
         id="reading"
-        className={clsx('mb-8')}
+        className={clsx('pt-16')}
         books={readingBooks.books.map(({cover, ...rest}) => ({
           ...rest,
           cover: cover || undefined,
@@ -62,7 +62,7 @@ export const UserPage: React.FC<UserPageProps> = ({
       />
       <UserPageSectionBooksList
         id="wish"
-        className={clsx('mb-8')}
+        className={clsx('pt-16')}
         books={wishBooks.books.map(({cover, ...rest}) => ({
           ...rest,
           cover: cover || undefined,
