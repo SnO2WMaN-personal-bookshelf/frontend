@@ -1,6 +1,6 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.preferences.importModuleSpecifier": "auto",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
   "files.associations": {
     ".eslintrc": "jsonc",
     ".prettierrc": "jsonc",
