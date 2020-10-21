@@ -1,27 +1,17 @@
-import {useAuth0} from '@auth0/auth0-react';
 import clsx from 'clsx';
-import gql from 'graphql-tag';
 import React from 'react';
 import styled from 'styled-components';
 import {Merge} from 'type-fest';
 import {HeaderNavbarDropdown} from '~/components/HeaderNavbarDropdown';
-
-export const Query = gql`
-  query GetUserForHeaderNav {
-    currentUser {
-      name
-      displayName
-      picture
-    }
-  }
-`;
+import {useHeaderNavbarDropdownOpenerQuery} from '~~/generated/graphql-codegen/apollo';
 
 export type ComponentProps = Merge<
   ContainerProps,
-  {
+  Partial<{
     picture: string;
+    displayName: string;
     name: string;
-  }
+  }>
 >;
 export const ComponentBase: React.FC<ComponentProps> = ({
   className,
@@ -36,6 +26,7 @@ export const ComponentBase: React.FC<ComponentProps> = ({
     </summary>
     <HeaderNavbarDropdown
       className={clsx('absolute', 'min-w-full', 'mt-1', 'right-0', 'z-50')}
+      user={{name}}
     />
   </details>
 );
@@ -64,7 +55,7 @@ export type ContainerProps = {
   className?: string;
 };
 export const Container: React.FC<ContainerProps> = (props) => {
-  const {user} = useAuth0();
+  const {data} = useHeaderNavbarDropdownOpenerQuery();
 
-  return <Component {...props} {...user} />;
+  return <Component {...props} {...data?.currentUser} />;
 };

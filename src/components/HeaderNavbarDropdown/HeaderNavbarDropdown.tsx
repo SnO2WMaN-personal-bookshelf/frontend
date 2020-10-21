@@ -7,24 +7,14 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import clsx from 'clsx';
-import gql from 'graphql-tag';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 import {Merge} from 'type-fest';
 import {HeaderNavbarDropdownButton} from '~/components/HeaderNavbarDropdownButton';
-import {useGetUserForHeaderNavDropdownQuery} from '~~/generated/graphql-codegen/apollo';
-
-export const Query = gql`
-  query GetUserForHeaderNavDropdown {
-    currentUser {
-      name
-    }
-  }
-`;
 
 export type ComponentProps = Merge<
-  ContainerProps,
+  Pick<ContainerProps, 'className'>,
   {
     href: {
       profile?: string;
@@ -92,11 +82,13 @@ export const Component = styled(ComponentBase)`
 
 export type ContainerProps = {
   className?: string;
+  user: {
+    name?: string;
+  };
 };
-export const Container: React.FC<ContainerProps> = (props) => {
-  const {t, i18n} = useTranslation();
+export const Container: React.FC<ContainerProps> = ({user, ...props}) => {
+  const {t} = useTranslation();
 
-  const {data} = useGetUserForHeaderNavDropdownQuery();
   return (
     <Component
       {...props}
@@ -109,7 +101,7 @@ export const Container: React.FC<ContainerProps> = (props) => {
         wishBooks: t('読みたい本'),
       }}
       href={{
-        profile: data && `/users/${data.currentUser.name}`,
+        profile: user.name && `/users/${user.name}`,
         readBooks: '/read',
         readingBooks: '/reading',
         wishBooks: '/wish',

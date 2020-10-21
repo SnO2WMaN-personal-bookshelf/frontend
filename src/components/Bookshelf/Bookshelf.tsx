@@ -1,34 +1,11 @@
 import clsx from 'clsx';
-import gql from 'graphql-tag';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {Merge} from 'type-fest';
 import {BookLink} from '~/components/BookLink';
 import {Spinner} from '~/components/Spinner/Spinner';
-import {useGetBookshelfFromIdQuery} from '~~/generated/graphql-codegen/apollo';
-
-export const Query = gql`
-  query getBookshelfFromId($id: ID!, $endCursor: String) {
-    bookshelf(id: $id) {
-      books(first: 50, after: $endCursor) {
-        totalItems
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-        edges {
-          cursor
-          node {
-            id
-            title
-            cover
-          }
-        }
-      }
-    }
-  }
-`;
+import {useBookshelfQuery} from '~~/generated/graphql-codegen/apollo';
 
 export type ComponentProps = Merge<
   Pick<ContainerProps, 'className'>,
@@ -60,7 +37,7 @@ export type ContainerProps = {className?: string; id: string};
 export const Container: React.FC<ContainerProps> = ({id, ...props}) => {
   const {t, i18n} = useTranslation();
 
-  const {data, error, loading, fetchMore} = useGetBookshelfFromIdQuery({
+  const {data, error, loading, fetchMore} = useBookshelfQuery({
     variables: {id},
   });
 

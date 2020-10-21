@@ -1,0 +1,19 @@
+query Bookshelf($id: ID!, $endCursor: String) {
+  bookshelf(id: $id) {
+    books(first: 50, after: $endCursor) {
+      totalItems
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          id
+          title
+          cover
+        }
+      }
+    }
+  }
+}
