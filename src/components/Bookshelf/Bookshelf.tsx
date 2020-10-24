@@ -44,20 +44,28 @@ export const Container: React.FC<ContainerProps> = ({id, ...props}) => {
   const [books, setBooks] = useState<ComponentProps['books']>([]);
   const [pageInfo, setPageInfo] = useState<{
     hasNextPage: boolean;
-    endCursor?: string;
-  }>({hasNextPage: false});
+    endCursor: string | null;
+  }>({
+    hasNextPage: false,
+    endCursor: null,
+  });
 
   useEffect(() => {
-    if (data?.bookshelf?.books.pageInfo && data.bookshelf.books.edges) {
+    if (
+      data?.bookshelf?.recordsConnection.pageInfo &&
+      data.bookshelf.recordsConnection.edges
+    ) {
       setBooks(
-        data.bookshelf.books.edges.map(({node: {cover, ...rest}}) => ({
-          ...rest,
-          cover: cover || undefined,
+        data.bookshelf.recordsConnection.edges.map(({node: {book}}) => ({
+          ...book,
+          cover: book.cover || undefined,
         })),
       );
       setPageInfo({
-        ...data.bookshelf.books.pageInfo,
-        endCursor: data.bookshelf.books.pageInfo.endCursor || undefined,
+        hasNextPage: Boolean(
+          data.bookshelf.recordsConnection.pageInfo.hasNextPage,
+        ),
+        endCursor: data.bookshelf.recordsConnection.pageInfo.endCursor || null,
       });
     }
   }, [data]);
@@ -69,17 +77,23 @@ export const Container: React.FC<ContainerProps> = ({id, ...props}) => {
         endCursor: pageInfo.endCursor,
       },
     }).then(({data}) => {
-      if (data?.bookshelf?.books.pageInfo && data.bookshelf.books.edges) {
+      if (
+        data?.bookshelf?.recordsConnection.pageInfo &&
+        data.bookshelf.recordsConnection.edges
+      ) {
         setBooks([
           ...books,
-          ...data.bookshelf.books.edges.map(({node: {cover, ...rest}}) => ({
-            ...rest,
-            cover: cover || undefined,
+          ...data.bookshelf.recordsConnection.edges.map(({node: {book}}) => ({
+            ...book,
+            cover: book.cover || undefined,
           })),
         ]);
         setPageInfo({
-          ...data.bookshelf.books.pageInfo,
-          endCursor: data.bookshelf.books.pageInfo.endCursor || undefined,
+          hasNextPage: Boolean(
+            data.bookshelf.recordsConnection.pageInfo.hasNextPage,
+          ),
+          endCursor:
+            data.bookshelf.recordsConnection.pageInfo.endCursor || null,
         });
       }
     });
@@ -97,7 +111,7 @@ export const Container: React.FC<ContainerProps> = ({id, ...props}) => {
           books={books}
           i18n={{
             bookCounts: t('common:units.books', {
-              count: data.bookshelf.books.totalItems,
+              count: data.bookshelf.total,
             }),
           }}
         />

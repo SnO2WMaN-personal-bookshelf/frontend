@@ -1,7 +1,15 @@
 query Bookshelf($id: ID!, $endCursor: String) {
   bookshelf(id: $id) {
-    books(first: 50, after: $endCursor) {
-      totalItems
+    id
+    total
+    recordsConnection(
+      first: 10
+      after: $endCursor
+      orderBy: {updatedAt: DESC}
+    ) {
+      aggregate {
+        count
+      }
       pageInfo {
         hasNextPage
         endCursor
@@ -10,8 +18,11 @@ query Bookshelf($id: ID!, $endCursor: String) {
         cursor
         node {
           id
-          title
-          cover
+          book {
+            id
+            title
+            cover
+          }
         }
       }
     }

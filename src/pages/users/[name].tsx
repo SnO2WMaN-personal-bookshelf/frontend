@@ -18,39 +18,48 @@ export const GetUserForUserPageQuery = gql`
       displayName
       readBooks {
         id
-        books(first: 10) {
-          totalItems
+        total
+        recordsConnection(first: 10, orderBy: {updatedAt: DESC}) {
           edges {
             node {
               id
-              title
-              cover
+              book {
+                id
+                title
+                cover
+              }
             }
           }
         }
       }
       readingBooks {
         id
-        books(first: 10) {
-          totalItems
+        total
+        recordsConnection(first: 10, orderBy: {updatedAt: DESC}) {
           edges {
             node {
               id
-              title
-              cover
+              book {
+                id
+                title
+                cover
+              }
             }
           }
         }
       }
       wishBooks {
         id
-        books(first: 10) {
-          totalItems
+        total
+        recordsConnection(first: 10, orderBy: {updatedAt: DESC}) {
           edges {
             node {
               id
-              title
-              cover
+              book {
+                id
+                title
+                cover
+              }
             }
           }
         }
@@ -97,23 +106,27 @@ export const getStaticProps: GetStaticProps<PageProps, UrlQuery> = async ({
   if (!user) throw new Error('');
 
   const {readBooks, readingBooks, wishBooks, ...rest} = user;
+
   return {
     props: {
       ...rest,
       readBooks: {
         ...readBooks,
-        total: readBooks.books.totalItems,
-        books: readBooks.books.edges?.map(({node}) => ({...node})) || [],
+        books: readBooks.recordsConnection.edges.map(({node: {book}}) => ({
+          ...book,
+        })),
       },
       readingBooks: {
-        ...readingBooks,
-        total: readingBooks.books.totalItems,
-        books: readingBooks.books.edges?.map(({node}) => ({...node})) || [],
+        ...readBooks,
+        books: readingBooks.recordsConnection.edges.map(({node: {book}}) => ({
+          ...book,
+        })),
       },
       wishBooks: {
-        ...wishBooks,
-        total: wishBooks.books.totalItems,
-        books: wishBooks.books.edges?.map(({node}) => ({...node})) || [],
+        ...readBooks,
+        books: wishBooks.recordsConnection.edges.map(({node: {book}}) => ({
+          ...book,
+        })),
       },
     },
   };
