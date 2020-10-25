@@ -1,0 +1,82 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.0.0
+  docker: circleci/docker@1.4.0
+  codecov: codecov/codecov@1.1.1
+  fossa-cli: fossa/cli@0.0.3
+
+jobs:
+  ts-check:
+    executor:
+      name: 'node/default'
+      tag: '12.18'
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: yarn build:codegen
+      - run: yarn tscheck
+      - save_cache:
+          paths:
+            - "generated/graphql-codegen"
+          key: "graphql-codegen-{{ .BuildNum }}"
+
+  lint-prettier:
+    executor:
+      name: 'node/default'
+      tag: '12.18'
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - restore_cache:
+          key: "graphql-codegen-{{ .BuildNum }}"
+      - run: yarn lint:prettier
+
+  lint-stylelint:
+    executor:
+      name: 'node/default'
+      tag: '12.18'
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - restore_cache:
+          key: "graphql-codegen-{{ .BuildNum }}"
+      - run: yarn lint:stylelint
+
+  lint-eslint:
+    executor:
+      name: 'node/default'
+      tag: '12.18'
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - restore_cache:
+          key: eslint-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          key: "graphql-codegen-{{ .BuildNum }}"
+      - run: yarn lint:eslint --cache --format junit --output-file ./junit/eslint.xml
+      - store_test_results:
+          path: ./junit
+      - save_cache:
+          key: eslint-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - .eslintcache
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - ts-check
+      - lint-eslint:
+          requires:
+              - ts-check
+      - lint-stylelint:
+          requires:
+              - ts-check
+      - lint-prettier:
+          requires:
+              - ts-check
