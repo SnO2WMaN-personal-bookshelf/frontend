@@ -8,3 +8,6 @@ generated/
 
 # Deignore
 !.hygen/
+
+# git submodule
+api/

@@ -9,3 +9,6 @@ generated/
 # hygen
 !.hygen/
 !.hygen.js
+
+# git submodule
+api/

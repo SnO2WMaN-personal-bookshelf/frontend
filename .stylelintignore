@@ -5,3 +5,6 @@ coverage/
 .next/
 dist/
 generated/
+
+# git submodule
+api/
