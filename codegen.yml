@@ -1,5 +1,5 @@
 schema:
-  - ${GRAPHQL_API_ENDPOINT}
+  - ${GRAPHQL_API_SCHEMA}
 documents:
   - 'src/pages/**/*.tsx'
   - 'src/components/**/*.graphql'
