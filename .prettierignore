@@ -9,5 +9,9 @@ generated/
 # Deignore
 !.hygen/
 
+# Storybook
+!.storybook/
+storybook-static/
+
 # git submodule
 api/

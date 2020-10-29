@@ -12,6 +12,9 @@ coverage/
 .env*
 !.env.example
 
+# Storybook
+storybook-static/
+
 # Build Outputs
 .next/
 dist/

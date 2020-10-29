@@ -6,5 +6,8 @@ coverage/
 dist/
 generated/
 
+# Storybook
+storybook-static/
+
 # git submodule
 api/
