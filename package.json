@@ -23,7 +23,7 @@
     "fmt:prettier": "yarn lint:prettier --write",
     "fmt:stylelint": "yarn lint:stylelint --fix",
     "build-storybook": "build-storybook",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s ./public",
     "tscheck": "tsc --noEmit"
   },
   "engines": {
