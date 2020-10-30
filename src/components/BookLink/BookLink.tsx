@@ -8,6 +8,7 @@ export type ComponentProps = {
   title: string;
   cover: string;
   href: string;
+  showTitle?: boolean;
 };
 export const Component: React.FC<ComponentProps> = ({
   className,
@@ -15,6 +16,7 @@ export const Component: React.FC<ComponentProps> = ({
   cover,
   href,
   title,
+  showTitle = false,
 }) => (
   <div className={clsx(className)}>
     <Link href={href} passHref>
@@ -26,6 +28,15 @@ export const Component: React.FC<ComponentProps> = ({
         />
       </a>
     </Link>
+    {showTitle && (
+      <div className={clsx('w-full')}>
+        <Link href={href} passHref>
+          <a>
+            <p className={clsx('text-xs', 'break-all')}>{title}</p>
+          </a>
+        </Link>
+      </div>
+    )}
   </div>
 );
 

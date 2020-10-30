@@ -10,7 +10,7 @@ export default {
 const Template: Story<ComponentProps> = (args) => <Component {...args} />;
 
 export const SpecifyHeight = Template.bind({});
-SpecifyHeight.storyName = '高さを指定';
+SpecifyHeight.storyName = '書影の高さを指定';
 SpecifyHeight.args = {
   imageClassName: clsx('h-48'),
   title: 'タイトル',
@@ -19,7 +19,7 @@ SpecifyHeight.args = {
 };
 
 export const SpecifyWidth = Template.bind({});
-SpecifyWidth.storyName = '横幅を指定';
+SpecifyWidth.storyName = '書影の横幅を指定';
 SpecifyWidth.args = {
   imageClassName: clsx('w-32'),
   title: 'タイトル',
@@ -57,12 +57,12 @@ export const LineUpWithFlexboxOverWidth: Story<ComponentProps> = ({
     className={clsx(
       'w-full',
       'overflow-x-scroll',
-      'space-x-4',
       'flex',
-      'no-wrap',
+      'flex-no-wrap',
+      'space-x-4',
     )}
   >
-    {[...Array(16)].map((i) => (
+    {Object.keys([...Array(16)]).map((i) => (
       <Component
         key={i}
         className={clsx(className, 'flex-none')}
@@ -84,7 +84,7 @@ export const LineUpWithGrid: Story<ComponentProps> = ({
   imageClassName,
 }) => (
   <div className={clsx('grid', 'grid-cols-8', 'gap-4')}>
-    {[...Array(24)].map((i) => (
+    {Object.keys([...Array(24)]).map((i) => (
       <Component
         key={i}
         className={className}
@@ -97,3 +97,23 @@ export const LineUpWithGrid: Story<ComponentProps> = ({
   </div>
 );
 LineUpWithGrid.storyName = 'Gridで並べる';
+
+export const LineUpWithGridWithTitle: Story<ComponentProps> = ({
+  className,
+  imageClassName,
+}) => (
+  <div className={clsx('grid', 'grid-cols-8', 'gap-4')}>
+    {Object.keys([...Array(24)]).map((i) => (
+      <Component
+        key={i}
+        className={className}
+        imageClassName={imageClassName}
+        title={`とある科学の超電磁砲(${Number(i) + 1})`}
+        href="/books/1"
+        cover="/default_cover.png"
+        showTitle
+      />
+    ))}
+  </div>
+);
+LineUpWithGridWithTitle.storyName = 'Gridで並べてタイトルを表示する';
