@@ -7,29 +7,47 @@ import _128x182_ from '~~/.storybook/assets/128x182.png';
 import _182x257_ from '~~/.storybook/assets/182x257.png';
 import _210x297_ from '~~/.storybook/assets/210x297.png';
 import _257x364_ from '~~/.storybook/assets/257x364.png';
-import {Component, ComponentProps} from '.';
+import {Component} from '.';
+
+const covers = {
+  _105x148_,
+  _113x177_,
+  _128x182_,
+  _182x257_,
+  _210x297_,
+  _257x364_,
+};
 
 export default {
   title: 'BooksGrid',
 } as Meta;
 
-export const Primary: Story<ComponentProps> = (args) => (
+export const Primary: Story = ({height, cols, ...args}) => (
   <Component
-    {...args}
-    books={Object.keys([...Array(6)]).map((i) => ({
+    className={clsx('w-full', `h-${height}`, `grid-cols-${cols}`, 'gap-x-4')}
+    books={Object.keys([...Array(Number(cols))]).map((i) => ({
       id: i,
-      title: `とある科学の超電磁砲(${Number(i) + 1})`,
-      cover: _113x177_,
+      title: `105x148`,
+      cover: covers._105x148_,
     }))}
   />
 );
-Primary.args = {
-  className: clsx('w-full', 'h-64', 'grid-cols-6', 'gap-x-4'),
+Primary.argTypes = {
+  height: {
+    name: 'height',
+    defaultValue: '64',
+    control: {type: 'inline-radio', options: ['32', '40', '48', '64']},
+  },
+  cols: {
+    name: 'cols',
+    defaultValue: '6',
+    control: {type: 'inline-radio', options: ['6', '7', '8']},
+  },
 };
 
-export const WithDifferentSize: Story<ComponentProps> = (args) => (
+export const WithDifferentSize: typeof Primary = ({height, cols, ...args}) => (
   <Component
-    {...args}
+    className={clsx('w-full', `h-${height}`, `grid-cols-${cols}`, 'gap-x-4')}
     books={[
       {
         id: '1',
@@ -65,6 +83,4 @@ export const WithDifferentSize: Story<ComponentProps> = (args) => (
   />
 );
 WithDifferentSize.storyName = '複数の書影のサイズ';
-WithDifferentSize.args = {
-  className: clsx('w-full', 'h-64', 'grid-cols-6', 'gap-x-4'),
-};
+WithDifferentSize.argTypes = Primary.argTypes;

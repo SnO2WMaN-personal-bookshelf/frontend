@@ -10,14 +10,11 @@ export default {
 
 export const Primary: Story<ComponentProps> = (args) => (
   <div className={clsx('flex')}>
-    <Component
-      {...args}
-      title="とある科学の超電磁砲(1)"
-      cover={_113x177_}
-      href="/books/1"
-    />
+    <Component {...args} cover={_113x177_} />
   </div>
 );
 Primary.args = {
   className: clsx('h-48'),
+  title: 'とある科学の超電磁砲(1)',
+  href: '/books/1',
 };
