@@ -27,7 +27,9 @@ export const Component: React.FC<ComponentProps> = ({
       books={books}
       className={clsx(
         'w-full',
-        'h-48',
+        'h-64',
+        'md:h-72',
+        'lg:h-48',
         'grid-cols-4',
         'md:grid-cols-6',
         'lg:grid-cols-8',

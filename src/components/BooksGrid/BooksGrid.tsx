@@ -8,7 +8,7 @@ export type ComponentProps = {
   books: ContainerProps['books'];
 };
 export const ComponentBase: React.FC<ComponentProps> = ({className, books}) => (
-  <div className={clsx(className, 'grid', 'grid-rows-1')}>
+  <div className={clsx(className, 'grid')}>
     {books.map((book) => (
       <BooksGridItem key={book.id} {...book} className={clsx('h-full')} />
     ))}
