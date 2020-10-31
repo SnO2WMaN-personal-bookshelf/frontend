@@ -1,52 +1,20 @@
-import gql from 'graphql-tag';
-import {Maybe} from 'graphql/jsutils/Maybe';
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {useRouter} from 'next/router';
 import React from 'react';
 import {LayoutDefault} from '~/components/LayoutDefault';
 import {LayoutLoading} from '~/components/LayoutLoading';
+import {BookPage, BookPageProps} from '~/components/Page/BookPage';
 import {GraphQLRequestSDK} from '~/lib/graphql-request';
 
-export const GetBookQuery = gql`
-  query GetBook($id: ID!) {
-    book(id: $id) {
-      id
-      title
-      isbn
-      cover
-    }
-  }
-`;
-
-export const GetAllBookIDsQuery = gql`
-  query GetAllBookIDs {
-    allBooks {
-      id
-    }
-  }
-`;
-
-export type PageProps = {
-  id: string;
-  title: string;
-  isbn?: Maybe<string>;
-  cover?: Maybe<string>;
-};
-export const BookPage: NextPage<PageProps> = ({
-  title,
-  children,
-  cover,
-  isbn,
-}) => {
+export type PageProps = BookPageProps;
+export const Page: NextPage<PageProps> = ({children, ...rest}) => {
   const router = useRouter();
 
   if (router.isFallback) return <LayoutLoading />;
 
   return (
     <LayoutDefault>
-      <p>{title}</p>
-      {cover && <img src={cover} alt={title} />}
-      {isbn && <p>{isbn}</p>}
+      <BookPage {...rest} />
     </LayoutDefault>
   );
 };
@@ -57,11 +25,27 @@ export const getStaticProps: GetStaticProps<PageProps, UrlQuery> = async ({
 }) => {
   if (!params?.id) throw new Error('');
 
-  return GraphQLRequestSDK.GetBook({
-    id: params.id,
-  }).then(({book}) => ({
-    props: book,
+  const {book} = await GraphQLRequestSDK.GetBook({id: params.id});
+
+  const series: PageProps['series'] = book.series.map(({books, ...rest}) => ({
+    ...rest,
+    books: books.edges.map(({node}) => ({...node.book})),
+    booksTotal: books.aggregate.count,
   }));
+  const authors: PageProps['authors'] = book.authors.map(
+    ({author: {books, ...rest}}) => ({
+      ...rest,
+      books: books.edges.map(({node}) => ({...node})),
+    }),
+  );
+
+  return {
+    props: {
+      ...book,
+      series,
+      authors,
+    },
+  };
 };
 
 export const getStaticPaths: GetStaticPaths<UrlQuery> = async () => {
@@ -75,4 +59,4 @@ export const getStaticPaths: GetStaticPaths<UrlQuery> = async () => {
   };
 };
 
-export default BookPage;
+export default Page;

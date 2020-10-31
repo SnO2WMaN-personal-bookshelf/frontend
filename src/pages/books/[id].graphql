@@ -1,0 +1,54 @@
+query GetAllBookIDs {
+  allBooks {
+    id
+  }
+}
+
+query GetBook($id: ID!) {
+  book(id: $id) {
+    id
+    title
+    isbn
+    cover
+    authors {
+      roles
+      author {
+        id
+        name
+        books(first: 8) {
+          edges {
+            node {
+              id
+              title
+              cover
+            }
+          }
+        }
+      }
+    }
+    series {
+      id
+      title
+      concluded
+
+      relatedAuthors {
+        id
+        name
+      }
+      books(first: 8) {
+        aggregate {
+          count
+        }
+        edges {
+          node {
+            book {
+              id
+              title
+              cover
+            }
+          }
+        }
+      }
+    }
+  }
+}
