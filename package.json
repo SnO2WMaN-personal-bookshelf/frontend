@@ -53,7 +53,7 @@
     "react-infinite-scroll-component": "^5.1.0",
     "react-use": "^15.3.4",
     "styled-components": "^5.1.1",
-    "tailwindcss": "^1.7.1",
+    "tailwindcss": "^1.9.6",
     "type-fest": "^0.17.0"
   },
   "devDependencies": {
