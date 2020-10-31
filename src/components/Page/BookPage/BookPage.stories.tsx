@@ -28,7 +28,6 @@ Primary.args = {
     {
       id: '5f9855bcb629d1a38d4cbd91',
       name: '藤本タツキ',
-      roles: null,
       books: [
         {
           id: '5f9855bc0f0268ef33265aa5',

@@ -1,6 +1,8 @@
 import clsx from 'clsx';
+import {Maybe} from 'graphql/jsutils/Maybe';
 import Link from 'next/link';
 import React from 'react';
+import {Merge} from 'type-fest';
 import {DetailsTable} from '~/components/Page/BookPage/DetailsTable';
 import {BooksListByAuthor} from './BooksListByAuthor';
 import {BooksListForSeries} from './BooksListForSeries';
@@ -10,18 +12,28 @@ export type ComponentProps = {
   id: string;
   title: string;
   isbn?: string;
-  cover?: string;
+  cover: string;
   authors: {
     id: string;
     name: string;
-    roles: null | string[];
-    books: {id: string; title: string; cover?: string}[];
+    books: {
+      id: string;
+      title: string;
+      cover: string;
+    }[];
   }[];
   series: {
     id: string;
     title: string;
-    relatedAuthors: {id: string; name: string}[];
-    books: {id: string; title: string; cover?: string}[];
+    relatedAuthors: {
+      id: string;
+      name: string;
+    }[];
+    books: {
+      id: string;
+      title: string;
+      cover: string;
+    }[];
     booksTotal: number;
   }[];
 };
@@ -55,7 +67,7 @@ export const Component: React.FC<ComponentProps> = ({
         {title}
       </h1>
       <ul className={clsx('flex', 'space-x-2', 'mb-2')}>
-        {authors.map(({id, name, roles}) => (
+        {authors.map(({id, name}) => (
           <li key={id}>
             <Link href={`/authors/${id}`} passHref>
               <a className={clsx('text-lg', 'select-all')}>{name}</a>
@@ -84,7 +96,62 @@ export const Component: React.FC<ComponentProps> = ({
   </main>
 );
 
-export type ContainerProps = ComponentProps;
-export const Container: React.FC<ContainerProps> = (props) => {
-  return <Component {...props} />;
+export type ContainerProps = Merge<
+  ComponentProps,
+  {
+    cover?: Maybe<string>;
+    isbn?: Maybe<string>;
+    authors: {
+      id: string;
+      name: string;
+      books: {
+        id: string;
+        title: string;
+        cover?: Maybe<string>;
+      }[];
+    }[];
+    series: {
+      id: string;
+      title: string;
+      relatedAuthors: {
+        id: string;
+        name: string;
+      }[];
+      books: {
+        id: string;
+        title: string;
+        cover?: Maybe<string>;
+      }[];
+      booksTotal: number;
+    }[];
+  }
+>;
+export const Container: React.FC<ContainerProps> = ({
+  isbn,
+  cover,
+  series,
+  authors,
+  ...props
+}) => {
+  return (
+    <Component
+      {...props}
+      isbn={isbn || undefined}
+      cover={cover ?? '/default_cover.png'}
+      series={series.map(({books, ...rest}) => ({
+        ...rest,
+        books: books.map(({cover, ...rest}) => ({
+          cover: cover ?? '/default_cover.png',
+          ...rest,
+        })),
+      }))}
+      authors={authors.map(({books, ...rest}) => ({
+        ...rest,
+        books: books.map(({cover, ...rest}) => ({
+          cover: cover ?? '/default_cover.png',
+          ...rest,
+        })),
+      }))}
+    />
+  );
 };
