@@ -4,7 +4,7 @@ import React from 'react';
 import {LayoutDefault} from '~/components/LayoutDefault';
 import {LayoutLoading} from '~/components/LayoutLoading';
 import {BookPage, BookPageProps} from '~/components/Page/BookPage';
-import {GraphQLRequestSDK} from '~/lib/graphql-request';
+import {SdkForPageQueries} from '~/lib/graphql-request';
 
 export type PageProps = BookPageProps;
 export const Page: NextPage<PageProps> = ({children, ...rest}) => {
@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps<PageProps, UrlQuery> = async ({
 }) => {
   if (!params?.id) throw new Error('');
 
-  const {book} = await GraphQLRequestSDK.GetBook({id: params.id});
+  const {book} = await SdkForPageQueries.GetBook({id: params.id});
 
   const series: PageProps['series'] = book.series.map(({books, ...rest}) => ({
     ...rest,
@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps<PageProps, UrlQuery> = async ({
 };
 
 export const getStaticPaths: GetStaticPaths<UrlQuery> = async () => {
-  const {allBooks} = await GraphQLRequestSDK.GetAllBookIDs();
+  const {allBooks} = await SdkForPageQueries.GetAllBookIDs();
 
   return {
     paths: allBooks.map(({id}) => ({

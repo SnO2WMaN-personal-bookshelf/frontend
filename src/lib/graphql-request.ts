@@ -1,6 +1,6 @@
 /* eslint-disable no-process-env */
 import {GraphQLClient} from 'graphql-request';
-import {getSdk} from '~~/generated/graphql-codegen/graphql-request';
+import {getSdk as getSdkForPageQueries} from '~~/generated/graphql-codegen/graphql-request/pages';
 
 export const GraphQLRequestClient = new GraphQLClient(
   process.env.GRAPHQL_API_ENDPOINT!,
@@ -11,4 +11,4 @@ export const GraphQLRequestClient = new GraphQLClient(
   },
 );
 
-export const GraphQLRequestSDK = getSdk(GraphQLRequestClient);
+export const SdkForPageQueries = getSdkForPageQueries(GraphQLRequestClient);

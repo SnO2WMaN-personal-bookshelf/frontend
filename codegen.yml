@@ -1,26 +1,28 @@
 schema:
   - ${GRAPHQL_API_SCHEMA}
-documents:
-  - 'src/pages/**/*.tsx'
-  - 'src/components/**/*.graphql'
 generates:
-  generated/graphql-codegen/graphql-request.ts:
-    plugins:
-      - 'typescript'
-      - 'typescript-operations'
-      - 'typescript-graphql-request'
-  generated/graphql-codegen/apollo.ts:
-    plugins:
-      - 'typescript'
-      - 'typescript-operations'
-      - 'typescript-react-apollo'
-  generated/graphql-codegen/schema.graphql:
+  ./generated/graphql-codegen/schema.graphql:
     plugins:
       - 'schema-ast'
     config:
       includeDirectives: true
-  generated/graphql-codegen/graphql-introspection.json:
+  ./generated/graphql-codegen/graphql-introspection.json:
     plugins:
       - 'introspection'
     config:
       minify: true
+  ./generated/graphql-codegen/graphql-request/pages.ts:
+    documents:
+      - 'src/pages/**/*.{tsx,graphql}'
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-graphql-request'
+  ./generated/graphql-codegen/apollo/components.ts:
+    documents:
+      - 'src/pages/**/*.tsx'
+      - 'src/components/**/*.graphql'
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'

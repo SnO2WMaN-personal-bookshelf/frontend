@@ -4,7 +4,7 @@ import React from 'react';
 import {LayoutDefault} from '~/components/LayoutDefault';
 import {LayoutLoading} from '~/components/LayoutLoading';
 import {SeriesPage, SeriesPageProps} from '~/components/Page/SeriesPage';
-import {GraphQLRequestSDK} from '~/lib/graphql-request';
+import {SdkForPageQueries} from '~/lib/graphql-request';
 
 export type PageProps = SeriesPageProps;
 export const Page: NextPage<PageProps> = ({children, ...rest}) => {
@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps<PageProps, UrlQuery> = async ({
 }) => {
   if (!params?.id) throw new Error('');
 
-  const {series} = await GraphQLRequestSDK.GetSeries({
+  const {series} = await SdkForPageQueries.GetSeries({
     id: params.id,
   });
   const books: PageProps['books'] = series.books.edges.map(({node}) => ({
@@ -43,7 +43,7 @@ export const getStaticProps: GetStaticProps<PageProps, UrlQuery> = async ({
 };
 
 export const getStaticPaths: GetStaticPaths<UrlQuery> = async () => {
-  const {allSeries} = await GraphQLRequestSDK.GetAllSeries();
+  const {allSeries} = await SdkForPageQueries.GetAllSeries();
 
   return {
     paths: allSeries.map(({id}) => ({
