@@ -1,0 +1,31 @@
+query GetSeries($id: ID!) {
+  series(id: $id) {
+    id
+    title
+    concluded
+    relatedAuthors {
+      id
+      name
+    }
+    books(first: 20) {
+      aggregate {
+        count
+      }
+      edges {
+        node {
+          book {
+            id
+            title
+            cover
+          }
+        }
+      }
+    }
+  }
+}
+
+query GetAllSeries {
+  allSeries {
+    id
+  }
+}
