@@ -3,7 +3,7 @@ import {Maybe} from 'graphql/jsutils/Maybe';
 import Link from 'next/link';
 import React from 'react';
 import {Merge} from 'type-fest';
-import {BooksGrid} from '~/components/BooksGrid';
+import {SeriesPageBooksList} from '~/components/Page/SeriesPage/SeriesPageBooksList';
 
 export type ComponentProps = {
   className?: string;
@@ -70,37 +70,7 @@ export const Component: React.FC<ComponentProps> = ({
       </div>
     </div>
     <div className={clsx()}>
-      <div
-        className={clsx(
-          'h-screen',
-          'px-4',
-          'py-4',
-          'lg:px-0',
-          'lg:py-0',
-          'lg:h-96',
-        )}
-      >
-        <BooksGrid
-          books={books}
-          className={clsx(
-            'w-full',
-            'h-full',
-
-            'gap-2',
-
-            'grid-cols-4',
-            'grid-rows-5',
-
-            'md:grid-cols-5',
-            'md:grid-rows-4',
-
-            'lg:gap-y-4',
-            'lg:grid-cols-10',
-            'lg:grid-rows-2',
-          )}
-        />
-        <div />
-      </div>
+      <SeriesPageBooksList className={clsx('w-full')} books={books} />
     </div>
   </main>
 );
