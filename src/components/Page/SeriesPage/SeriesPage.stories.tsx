@@ -1,6 +1,6 @@
 import {Meta, Story} from '@storybook/react/types-6-0';
 import React from 'react';
-import {LayoutDefault} from '~/components/LayoutDefault';
+import {Component as PageLayout} from '~/components/Layout/PageLayout';
 import _113x177_ from '~~/.storybook/assets/113x177.png';
 import {Component, ComponentProps} from '.';
 
@@ -9,9 +9,9 @@ export default {
   component: Component,
   decorators: [
     (Story) => (
-      <LayoutDefault>
+      <PageLayout>
         <Story />
-      </LayoutDefault>
+      </PageLayout>
     ),
   ],
   parameters: {

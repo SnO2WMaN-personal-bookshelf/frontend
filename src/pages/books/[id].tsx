@@ -1,22 +1,11 @@
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next';
-import {useRouter} from 'next/router';
 import React from 'react';
-import {LayoutDefault} from '~/components/LayoutDefault';
-import {LayoutLoading} from '~/components/LayoutLoading';
 import {BookPage, BookPageProps} from '~/components/Page/BookPage';
 import {SdkForPageQueries} from '~/lib/graphql-request';
 
 export type PageProps = BookPageProps;
 export const Page: NextPage<PageProps> = ({children, ...rest}) => {
-  const router = useRouter();
-
-  if (router.isFallback) return <LayoutLoading />;
-
-  return (
-    <LayoutDefault>
-      <BookPage {...rest} />
-    </LayoutDefault>
-  );
+  return <BookPage {...rest} />;
 };
 
 export type UrlQuery = {id: string};

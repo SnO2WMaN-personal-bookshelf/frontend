@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import {AppProps} from 'next/app';
 import Router from 'next/router';
 import React from 'react';
-import {HeaderNavbar} from '~/components/HeaderNavbar';
+import {AppLayout} from '~/components/Layout/AppLayout';
 import {ConfiguratedI18nextProvider} from '~/i18n';
 import {Auth0AuthorizedApolloProvider} from '~/lib/Auth0AuthorizedApolloProvider';
 import '~/styles/index.css';
@@ -17,8 +17,10 @@ const onRedirectCallback: Auth0ProviderOptions['onRedirectCallback'] = (
   Router.replace(appState?.returnTo || '/');
 };
 
-export type Props = AppProps;
-export const App: React.FC<Props> = ({Component: PageComponent, pageProps}) => {
+export const App: React.FC<AppProps> = ({
+  Component: PageComponent,
+  pageProps,
+}) => {
   return (
     <Auth0Provider
       domain={process.env.NEXT_PUBLIC_DOMAIN!}
@@ -38,10 +40,9 @@ export const App: React.FC<Props> = ({Component: PageComponent, pageProps}) => {
         }}
       >
         <ConfiguratedI18nextProvider>
-          <HeaderNavbar
-            className={clsx('w-full', 'sticky', 'top-0', 'left-0', 'shadow-md')}
-          />
-          <PageComponent {...pageProps} />
+          <AppLayout className={clsx('w-full', 'min-h-screen')}>
+            <PageComponent {...pageProps} />
+          </AppLayout>
         </ConfiguratedI18nextProvider>
       </Auth0AuthorizedApolloProvider>
     </Auth0Provider>

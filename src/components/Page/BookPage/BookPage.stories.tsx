@@ -1,7 +1,6 @@
 import {Meta, Story} from '@storybook/react/types-6-0';
-import clsx from 'clsx';
 import React from 'react';
-import {LayoutDefault} from '~/components/LayoutDefault';
+import {Component as PageLayout} from '~/components/Layout/PageLayout';
 import {Component, ComponentProps} from '.';
 
 export default {
@@ -9,11 +8,14 @@ export default {
   component: Component,
   decorators: [
     (Story) => (
-      <LayoutDefault>
+      <PageLayout>
         <Story />
-      </LayoutDefault>
+      </PageLayout>
     ),
   ],
+  parameters: {
+    layout: 'fullscreen',
+  },
 } as Meta;
 
 const Template: Story<ComponentProps> = ({...args}) => <Component {...args} />;
@@ -21,7 +23,6 @@ const Template: Story<ComponentProps> = ({...args}) => <Component {...args} />;
 export const Primary = Template.bind({});
 Primary.storyName = '作者が1人の場合';
 Primary.args = {
-  className: clsx(),
   id: '5f9855bc0f0268ef33265aa5',
   title: 'チェンソーマン(1)',
   isbn: '978-4-08-881780-4',
@@ -129,4 +130,8 @@ Primary.args = {
       ],
     },
   ],
+  i18n: {
+    titleBookslistForSeries: '関連するシリーズ',
+    titleBookslistByAuthors: '作者に関連する本',
+  },
 };
