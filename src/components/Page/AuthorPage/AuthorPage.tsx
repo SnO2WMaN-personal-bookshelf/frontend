@@ -1,9 +1,8 @@
 import clsx from 'clsx';
-import {Maybe} from 'graphql/jsutils/Maybe';
 import React from 'react';
-import {Merge} from 'type-fest';
 import {BooksListForSeries} from '~/components/Page/BookPage/BooksListForSeries';
 import {SeriesPageBooksList} from '~/components/Page/SeriesPage/SeriesPageBooksList';
+import {GetAuthorQuery} from '~~/generated/graphql-codegen/graphql-request/pages';
 
 export type ComponentProps = {
   className?: string;
@@ -78,49 +77,23 @@ export const Component: React.FC<ComponentProps> = ({
   </main>
 );
 
-export type ContainerProps = Merge<
-  ComponentProps,
-  {
-    books: {
-      id: string;
-      title: string;
-      cover?: Maybe<string>;
-    }[];
-    series: {
-      id: string;
-      title: string;
-
-      relatedAuthors: {
-        id: string;
-        name: string;
-      }[];
-      books: {
-        id: string;
-        title: string;
-        cover?: Maybe<string>;
-      }[];
-      booksTotal: number;
-    }[];
-  }
->;
-export const Container: React.FC<ContainerProps> = ({
-  books,
-  series,
-  ...props
-}) => {
+export type ContainerProps = GetAuthorQuery;
+export const Container: React.FC<ContainerProps> = ({author, ...props}) => {
   return (
     <Component
       {...props}
-      books={books.map(({cover, ...rest}) => ({
+      {...author}
+      books={author.books.edges.map(({node: {cover, ...rest}}) => ({
         cover: cover || undefined,
         ...rest,
       }))}
-      series={series.map(({books, ...rest}) => ({
-        books: books.map(({cover, ...rest}) => ({
+      series={author.series.edges.map(({node}) => ({
+        ...node,
+        books: node.books.edges.map(({node: {book: {cover, ...rest}}}) => ({
           cover: cover || undefined,
           ...rest,
         })),
-        ...rest,
+        booksTotal: node.books.aggregate.count,
       }))}
     />
   );

@@ -1,9 +1,8 @@
 import clsx from 'clsx';
-import {Maybe} from 'graphql/jsutils/Maybe';
 import Link from 'next/link';
 import React from 'react';
-import {Merge} from 'type-fest';
 import {SeriesPageBooksList} from '~/components/Page/SeriesPage/SeriesPageBooksList';
+import {GetSeriesQuery} from '~~/generated/graphql-codegen/graphql-request/pages';
 
 export type ComponentProps = {
   className?: string;
@@ -75,27 +74,17 @@ export const Component: React.FC<ComponentProps> = ({
   </main>
 );
 
-export type ContainerProps = Merge<
-  Pick<
-    ComponentProps,
-    'className' | 'id' | 'title' | 'concluded' | 'relatedAuthors' | 'booksTotal'
-  >,
-  {
-    books: {
-      id: string;
-      title: string;
-      cover?: Maybe<string>;
-    }[];
-  }
->;
-export const Container: React.FC<ContainerProps> = ({books, ...props}) => {
+export type ContainerProps = GetSeriesQuery;
+export const Container: React.FC<ContainerProps> = ({series, ...props}) => {
   return (
     <Component
       {...props}
-      books={books.map(({cover, ...rest}) => ({
+      {...series}
+      books={series.books.edges.map(({node: {book: {cover, ...rest}}}) => ({
         cover: cover || undefined,
         ...rest,
       }))}
+      booksTotal={series.books.aggregate.count}
     />
   );
 };
