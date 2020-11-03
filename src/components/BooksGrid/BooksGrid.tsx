@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 import React from 'react';
 import styled from 'styled-components';
-import {BooksGridItem, BooksGridItemProps} from './BooksGridItem';
+import {BooksGridItem} from './BooksGridItem';
 
 export type ComponentProps = {
-  className?: ContainerProps['className'];
-  books: ContainerProps['books'];
+  className?: string;
+  books: {id: string; title: string; cover?: string}[];
 };
 export const ComponentBase: React.FC<ComponentProps> = ({className, books}) => (
   <div className={clsx(className, 'grid')}>
@@ -17,10 +17,7 @@ export const ComponentBase: React.FC<ComponentProps> = ({className, books}) => (
 
 export const Component = styled(ComponentBase)``;
 
-export type ContainerProps = {
-  className?: string;
-  books: Pick<BooksGridItemProps, 'id' | 'title' | 'cover'>[];
-};
+export type ContainerProps = ComponentProps;
 export const Container: React.FC<ContainerProps> = (props) => {
   return <Component {...props} />;
 };

@@ -4,7 +4,7 @@ import React from 'react';
 
 export type ComponentProps = {
   className?: string;
-  cover?: string;
+  cover: string;
   title: string;
   href: string;
 };
@@ -44,5 +44,11 @@ export type ContainerProps = {
   title: string;
 };
 export const Container: React.FC<ContainerProps> = (props) => {
-  return <Component {...props} href={`/books/${props.id}`} />;
+  return (
+    <Component
+      {...props}
+      href={`/books/${props.id}`}
+      cover={props.cover || '/default_cover.png'}
+    />
+  );
 };

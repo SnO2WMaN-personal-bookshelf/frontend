@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {BooksGrid} from '~/components/BooksGrid';
+import {SeriesPageBooksList} from '~/components/Page/SeriesPage/SeriesPageBooksList';
 
 export type ComponentProps = {
   className?: string;
@@ -40,18 +40,7 @@ export const Component: React.FC<ComponentProps> = ({
         <p className={clsx('text-sm', 'mt-1')}>{i18n.booksTotal}</p>
       </div>
     </div>
-    <BooksGrid
-      books={books}
-      className={clsx(
-        'w-full',
-        'h-64',
-        'md:h-72',
-        'lg:h-48',
-        'grid-cols-4',
-        'md:grid-cols-6',
-        'lg:grid-cols-8',
-      )}
-    />
+    <SeriesPageBooksList className={clsx('w-full')} books={books} />
   </div>
 );
 
