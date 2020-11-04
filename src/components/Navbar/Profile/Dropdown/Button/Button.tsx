@@ -26,7 +26,7 @@ export const Component: React.FC<ComponentProps> = ({
           'hover:bg-teal-500',
           'px-6',
           'py-4',
-          'lg:px-3',
+          'lg:py-3',
           'flex',
           'items-center',
         )}

@@ -1,0 +1,7 @@
+query Navbar {
+  currentUser {
+    name
+    displayName
+    picture
+  }
+}

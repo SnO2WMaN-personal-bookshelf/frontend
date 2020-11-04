@@ -4,11 +4,12 @@ import clsx from 'clsx';
 import React from 'react';
 import {NavbarSearchBox} from '~/components/Navbar/NavbarSearchBox';
 import {NavbarProfile} from '~/components/Navbar/Profile';
+import {useNavbarQuery} from '~~/generated/graphql-codegen/apollo/components';
 
 export type ComponentProps = {
   className?: string;
 
-  profile: {
+  profile?: {
     name: string;
     displayName: string;
     picture: string;
@@ -47,16 +48,22 @@ export const Component: React.FC<ComponentProps> = ({className, profile}) => (
       <div className={clsx('flex-grow', 'hidden', 'lg:block')}>
         <NavbarSearchBox className={clsx('w-full')} />
       </div>
-      <div
-        className={clsx('flex-grow', 'flex', 'justify-center', 'items-center')}
-      >
-        <NavbarProfile profile={profile} />
+      <div className={clsx('flex', 'justify-end', 'items-center', 'space-x-2')}>
+        {profile && (
+          <>
+            <NavbarProfile profile={profile} />
+          </>
+        )}
       </div>
     </div>
   </nav>
 );
 
-export type ContainerProps = ComponentProps;
+export type ContainerProps = {
+  className?: string;
+};
 export const Container: React.FC<ContainerProps> = (props) => {
-  return <Component {...props} />;
+  const {data, loading} = useNavbarQuery();
+
+  return <Component {...props} profile={data?.currentUser} />;
 };
