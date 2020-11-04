@@ -1,7 +1,0 @@
-query HeaderNavbarDropdownOpener {
-  currentUser {
-    name
-    displayName
-    picture
-  }
-}
