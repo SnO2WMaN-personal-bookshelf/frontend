@@ -1,0 +1,62 @@
+query GetUserForUserPage($name: String!) {
+  user(name: $name) {
+    id
+    name
+    picture
+    displayName
+    readBooks {
+      id
+      total
+      recordsConnection(first: 20, orderBy: {updatedAt: DESC}) {
+        edges {
+          node {
+            id
+            book {
+              id
+              title
+              cover
+            }
+          }
+        }
+      }
+    }
+    readingBooks {
+      id
+      total
+      recordsConnection(first: 20, orderBy: {updatedAt: DESC}) {
+        edges {
+          node {
+            id
+            book {
+              id
+              title
+              cover
+            }
+          }
+        }
+      }
+    }
+    wishBooks {
+      id
+      total
+      recordsConnection(first: 20, orderBy: {updatedAt: DESC}) {
+        edges {
+          node {
+            id
+            book {
+              id
+              title
+              cover
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+query GetAllUserNames {
+  allUsers {
+    name
+  }
+}
