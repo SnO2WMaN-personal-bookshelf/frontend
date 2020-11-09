@@ -1,0 +1,91 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: mongo:4
+    environment:
+      TZ: Asia/Tokyo
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    volumes:
+      - ./mongo/initdb:/docker-entrypoint-initdb.d
+      - ./mongo/sample/output:/sample
+    ports:
+      - ${MONGO_PORT}:27017
+
+  postgresql:
+    image: postgres:latest
+    environment:
+      TZ: Asia/Tokyo
+      POSTGRES_DB: ${TYPEORM_DATABASE}
+      POSTGRES_USER: ${TYPEORM_USERNAME}
+      POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    ports:
+      - ${TYPEORM_PORT}:5432
+
+  adminer:
+    image: adminer:latest
+    depends_on:
+      - postgresql
+    ports:
+      - 8080:8080
+
+  compensator:
+    build:
+      context: ./compensator
+      dockerfile: Dockerfile
+    ports:
+      - ${COMPENSATOR_PORT}:3000
+
+  bookcover-server:
+    build:
+      context: ./bookcover-server
+      dockerfile: Dockerfile
+    ports:
+      - ${BOOKCOVER_SERVER_PORT}:4000
+    depends_on:
+      - mongo
+      - compensator
+    environment:
+      COMPENSATOR_URL: ${COMPENSATOR_URL}
+      MONGO_USERNAME: ${MONGO_USERNAME}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_DATABASE: ${MONGO_DATABASE}
+      MONGO_HOST: mongo
+      MONGO_PORT: ${MONGO_PORT}
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - ${API_PORT}:4000
+    depends_on:
+      - mongo
+      - postgresql
+      - compensator
+      - bookcover-server
+    environment:
+      COMPENSATOR_URL: ${COMPENSATOR_URL}
+      BOOKCOVER_SERVER: ${BOOKCOVER_SERVER}
+      # Auth0
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+      AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
+      # Mongo
+      MONGO_USERNAME: ${MONGO_USERNAME}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_DATABASE: ${MONGO_DATABASE}
+      MONGO_HOST: mongo
+      MONGO_PORT: ${MONGO_PORT}
+      # TypeORM
+      TYPEORM_USERNAME: ${TYPEORM_USERNAME}
+      TYPEORM_PASSWORD: ${TYPEORM_PASSWORD}
+      TYPEORM_DATABASE: ${TYPEORM_DATABASE}
+      TYPEORM_HOST: postgresql
+      TYPEORM_PORT: ${TYPEORM_PORT}
+
+volumes:
+  postgresql-data:
