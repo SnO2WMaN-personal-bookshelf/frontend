@@ -40,11 +40,8 @@ export const ComponentBase: React.FC<ComponentProps> = ({
           src={cover}
           alt={title}
         />
+        <div className={clsx('gloss', 'absolute', 'inset-0')} />
       </div>
-      <div className={clsx('w-full', 'text-center')}>
-        <a className={clsx('block', 'text-xs', 'break-all')}>{title}</a>
-      </div>
-      <div className={clsx('gloss', 'absolute', 'inset-0')} />
     </a>
   </Link>
 );
