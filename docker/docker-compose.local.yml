@@ -50,7 +50,7 @@ services:
       - mongo
       - compensator
     environment:
-      COMPENSATOR_URL: ${COMPENSATOR_URL}
+      COMPENSATOR_URL: http://localhost:${COMPENSATOR_PORT}
       MONGO_USERNAME: ${MONGO_USERNAME}
       MONGO_PASSWORD: ${MONGO_PASSWORD}
       MONGO_DATABASE: ${MONGO_DATABASE}
@@ -69,7 +69,6 @@ services:
       - compensator
       - bookcover-server
     environment:
-      COMPENSATOR_URL: ${COMPENSATOR_URL}
       BOOKCOVER_SERVER: ${BOOKCOVER_SERVER}
       # Auth0
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}

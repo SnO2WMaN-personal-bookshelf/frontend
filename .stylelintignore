@@ -10,4 +10,4 @@ generated/
 storybook-static/
 
 # git submodule
-api/
+docker/**/

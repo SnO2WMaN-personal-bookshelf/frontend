@@ -1,12 +1,12 @@
-[submodule "api"]
-	path = api
+[submodule "docker/compensator"]
+	path = docker/compensator
+	url = git@github.com:SnO2WMaN-personal-bookshelf/compensator.git
+[submodule "docker/bookcover-server"]
+	path = docker/bookcover-server
+	url = git@github.com:SnO2WMaN-personal-bookshelf/bookcover-server.git
+[submodule "docker/api"]
+	path = docker/api
 	url = git@github.com:SnO2WMaN-personal-bookshelf/api.git
 [submodule "docker/mongo/sample"]
 	path = docker/mongo/sample
 	url = git@github.com:SnO2WMaN-personal-bookshelf/sample-data.git
-[submodule "compensator"]
-	path = compensator
-	url = git@github.com:SnO2WMaN-personal-bookshelf/compensator.git
-[submodule "bookcover-server"]
-	path = bookcover-server
-	url = git@github.com:SnO2WMaN-personal-bookshelf/bookcover-server.git
