@@ -1,7 +1,7 @@
 import {withAuthenticationRequired} from '@auth0/auth0-react';
 import gql from 'graphql-tag';
 import React from 'react';
-import {useGetReadingBooksQuery} from '~~/generated/graphql-codegen/apollo';
+import {useGetReadingBooksQuery} from '~~/generated/graphql-codegen/apollo/components';
 import {BooksPage} from './read';
 
 export const Query = gql`

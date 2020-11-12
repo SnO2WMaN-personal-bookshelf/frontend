@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import {Merge} from 'type-fest';
 import {BookLink} from '~/components/BookLink';
 import {Spinner} from '~/components/Spinner/Spinner';
-import {useBookshelfQuery} from '~~/generated/graphql-codegen/apollo';
+import {useBookshelfQuery} from '~~/generated/graphql-codegen/apollo/components';
 
 export type ComponentProps = Merge<
   Pick<ContainerProps, 'className'>,

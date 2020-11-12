@@ -10,7 +10,7 @@ import {
   useGetReadBooksQuery,
   useGetReadingBooksQuery,
   useGetWishBooksQuery,
-} from '~~/generated/graphql-codegen/apollo';
+} from '~~/generated/graphql-codegen/apollo/components';
 
 export const Query = gql`
   query GetReadBooks {
