@@ -5,7 +5,6 @@
     "plugin:@shopify/typescript",
     "plugin:@shopify/jest",
     "plugin:@shopify/react",
-    "plugin:@shopify/graphql",
     "plugin:@shopify/prettier"
   ],
   "rules": {

@@ -15,7 +15,7 @@
     "clean": "rimraf dist generated",
     "new:component": "hygen new component",
     "lint": "run-s -cn lint:* tscheck",
-    "lint:eslint": "eslint . --ext .js,.jsx,.ts,.tsx,.graphql",
+    "lint:eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:prettier": "prettier --check **/*.{json,yml,yaml,md,graphql}",
     "lint:stylelint": "stylelint **/*.{css,scss,sass,jsx,tsx}",
     "fmt": "run-s -cn fmt:*",
