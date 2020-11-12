@@ -7,10 +7,9 @@ import {Merge} from 'type-fest';
 
 export type ComponentProps = {
   className?: string;
-}
+};
 export const Component: React.FC<ComponentProps> = ({className}) => (
-  <<%= tag %> className={clsx(className)}>
-  </<%= tag %>>
+  <main className={clsx(className)} />
 );
 
 export type ContainerProps = {
