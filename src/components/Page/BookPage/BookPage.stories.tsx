@@ -4,7 +4,7 @@ import {Component as PageLayout} from '~/components/Layout/PageLayout';
 import {Component, ComponentProps} from '.';
 
 export default {
-  title: 'Page/BookPage',
+  title: 'BookPage',
   component: Component,
   decorators: [
     (Story) => (

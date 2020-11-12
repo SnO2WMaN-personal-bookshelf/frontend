@@ -5,7 +5,7 @@ import _113x177_ from '~~/.storybook/assets/113x177.png';
 import {Component, ComponentProps} from '.';
 
 export default {
-  title: 'Page/SeriesPage',
+  title: 'SeriesPage',
   component: Component,
   decorators: [
     (Story) => (
