@@ -11,7 +11,8 @@ export const Component: React.FC<ComponentProps> = ({className, children}) => (
       'container',
       'mx-auto',
       'shadow',
-      'px-8',
+      'px-2',
+      'lg:px-8',
       'py-16',
       'bg-white',
     )}
