@@ -1,3 +1,4 @@
+import beautyISBN13 from 'beauty-isbn-13';
 import clsx from 'clsx';
 import Link from 'next/link';
 import React from 'react';
@@ -107,11 +108,12 @@ export const Component: React.FC<ComponentProps> = ({
 export type ContainerProps = GetBookQuery;
 export const Container: React.FC<ContainerProps> = ({book, ...props}) => {
   const {t} = useTranslation();
+  const isbn = book.isbn ? beautyISBN13(book.isbn) : undefined;
   return (
     <Component
       {...props}
       {...book}
-      isbn={book.isbn || undefined}
+      isbn={isbn}
       cover={book.cover || undefined}
       series={book.series.map((series) => ({
         ...series,
