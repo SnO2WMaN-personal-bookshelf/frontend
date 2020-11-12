@@ -4,6 +4,7 @@
   "profile": "プロフィール",
   "settings": "設定",
   "units": {
-    "books": "{{count}}冊"
+    "books": "{{count}}冊",
+    "volume": "{{count}}巻"
   }
 }
