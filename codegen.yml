@@ -20,7 +20,6 @@ generates:
       - 'typescript-graphql-request'
   ./generated/graphql-codegen/apollo/components.ts:
     documents:
-      - 'src/pages/**/*.tsx'
       - 'src/components/**/*.graphql'
     plugins:
       - 'typescript'
