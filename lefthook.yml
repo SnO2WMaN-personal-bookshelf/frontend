@@ -6,9 +6,6 @@ commit-msg:
 pre-commit:
   parallel: true
   commands:
-    tsc-check:
-      tags: frontend check
-      run: tsc --noEmit
     eslint:
       tags: frontend lint
       files: git diff --name-only --staged
@@ -38,7 +35,11 @@ pre-commit:
       tags: infra lint
       files: git diff --name-only --staged
       glob: '.renovaterc'
-      run: npx --package renovate -c 'renovate-config-validator'
+      run: |
+        docker run \
+          -v $PWD/.renovaterc:/usr/src/app/.renovaterc \
+          --rm -it -e LOG_LEVEL=debug renovate/renovate:slim  \
+          renovate-config-validator
     validate-circleci:
       tags: ci lint
       files: git diff --name-only --staged
