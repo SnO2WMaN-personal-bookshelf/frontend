@@ -19,8 +19,8 @@ jobs:
       - run: yarn tscheck
       - save_cache:
           paths:
-            - "generated/graphql-codegen"
-          key: "graphql-codegen-{{ .BuildNum }}"
+            - 'generated/graphql-codegen'
+          key: 'graphql-codegen-{{ .BuildNum }}'
 
   lint-prettier:
     executor:
@@ -31,7 +31,7 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
       - restore_cache:
-          key: "graphql-codegen-{{ .BuildNum }}"
+          key: 'graphql-codegen-{{ .BuildNum }}'
       - run: yarn lint:prettier
 
   lint-stylelint:
@@ -43,7 +43,7 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
       - restore_cache:
-          key: "graphql-codegen-{{ .BuildNum }}"
+          key: 'graphql-codegen-{{ .BuildNum }}'
       - run: yarn lint:stylelint
 
   lint-eslint:
@@ -57,7 +57,7 @@ jobs:
       - restore_cache:
           key: eslint-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - restore_cache:
-          key: "graphql-codegen-{{ .BuildNum }}"
+          key: 'graphql-codegen-{{ .BuildNum }}'
       - run: yarn lint:eslint --cache --format junit --output-file ./junit/eslint.xml
       - store_test_results:
           path: ./junit
@@ -73,10 +73,10 @@ workflows:
       - ts-check
       - lint-eslint:
           requires:
-              - ts-check
+            - ts-check
       - lint-stylelint:
           requires:
-              - ts-check
+            - ts-check
       - lint-prettier:
           requires:
-              - ts-check
+            - ts-check
