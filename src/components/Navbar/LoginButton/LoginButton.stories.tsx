@@ -8,5 +8,14 @@ export default {
 } as Meta;
 const Template: Story<ComponentProps> = ({...args}) => <Component {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {};
+export const Japanese = Template.bind({});
+Japanese.storyName = '日本語';
+Japanese.args = {
+  i18n: {login: 'ログイン'},
+};
+
+export const English = Template.bind({});
+English.storyName = '英語';
+English.args = {
+  i18n: {login: 'Login'},
+};
