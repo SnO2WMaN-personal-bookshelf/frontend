@@ -1,4 +1,6 @@
 import {useAuth0} from '@auth0/auth0-react';
+import {faSignInAlt} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
@@ -25,6 +27,7 @@ export const Component: React.FC<ComponentProps> = ({
     )}
     onClick={onClick}
   >
+    <FontAwesomeIcon icon={faSignInAlt} className={clsx('mr-2')} />
     <span>{i18n.login}</span>
   </button>
 );
