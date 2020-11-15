@@ -1,0 +1,13 @@
+query BookPage {
+  currentUser {
+    readBooks {
+      id
+    }
+    readingBooks {
+      id
+    }
+    wishBooks {
+      id
+    }
+  }
+}

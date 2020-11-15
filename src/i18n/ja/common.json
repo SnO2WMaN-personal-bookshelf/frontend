@@ -3,6 +3,7 @@
   "sign_out": "ログアウト",
   "profile": "プロフィール",
   "settings": "設定",
+  "register": "登録",
   "units": {
     "books": "{{count}}冊",
     "volume": "{{count}}巻"

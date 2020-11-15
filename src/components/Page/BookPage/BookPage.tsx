@@ -4,6 +4,8 @@ import Link from 'next/link';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {DetailsTable} from '~/components/Page/BookPage/DetailsTable';
+import {RegisterButtons} from '~/components/Page/BookPage/RegisterButtons';
+import {useBookPageQuery} from '~~/generated/graphql-codegen/apollo/components';
 import {GetBookQuery} from '~~/generated/graphql-codegen/graphql-request/pages';
 import {BooksListByAuthor} from './BooksListByAuthor';
 import {BooksListForSeries} from './BooksListForSeries';
@@ -40,15 +42,22 @@ export type ComponentProps = {
   i18n: {
     [key in 'titleBookslistByAuthors' | 'titleBookslistForSeries']: string;
   };
+  readBookshelfId?: string;
+  readingBookshelfId?: string;
+  wishBookshelfId?: string;
 };
 export const Component: React.FC<ComponentProps> = ({
   className,
+  id,
   title,
   cover,
   series,
   authors,
   isbn,
   i18n,
+  readingBookshelfId,
+  readBookshelfId,
+  wishBookshelfId,
 }) => (
   <main className={clsx(className, 'grid', 'grid-cols-4', 'gap-y-8')}>
     <div className={clsx('h-64', 'flex', 'justify-center')}>
@@ -81,6 +90,16 @@ export const Component: React.FC<ComponentProps> = ({
         ))}
       </ul>
       {isbn && <DetailsTable isbn={isbn} />}
+      {readBookshelfId && readingBookshelfId && wishBookshelfId && (
+        <RegisterButtons
+          className={clsx('mt-4')}
+          id={id}
+          title={title}
+          readBookshelfId={readBookshelfId}
+          readingBookshelfId={readingBookshelfId}
+          wishBookshelfId={wishBookshelfId}
+        />
+      )}
     </div>
     <section className={clsx('col-span-4')}>
       <h2 className={clsx('px-8', 'text-2xl', 'mb-4')}>
@@ -109,6 +128,9 @@ export type ContainerProps = GetBookQuery;
 export const Container: React.FC<ContainerProps> = ({book, ...props}) => {
   const {t} = useTranslation();
   const isbn = book.isbn ? beautyISBN13(book.isbn) : undefined;
+
+  const {data} = useBookPageQuery();
+
   return (
     <Component
       {...props}
@@ -134,6 +156,9 @@ export const Container: React.FC<ContainerProps> = ({book, ...props}) => {
         titleBookslistForSeries: t('関連するシリーズ'),
         titleBookslistByAuthors: t('作者に関連する本'),
       }}
+      readBookshelfId={data?.currentUser.readBooks.id}
+      readingBookshelfId={data?.currentUser.readingBooks.id}
+      wishBookshelfId={data?.currentUser.wishBooks.id}
     />
   );
 };
