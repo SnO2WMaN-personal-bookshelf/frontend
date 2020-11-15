@@ -6,8 +6,8 @@ import {
 import clsx from 'clsx';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {RegisterButton} from '~/components/Page/BookPage/RegisterButtons/Button';
-import {RegisterForm} from '~/components/Page/BookPage/RegisterButtons/Form';
+import {RegisterButton} from '~/page-components/BookPage/RegisterButtons/Button';
+import {RegisterForm} from '~/page-components/BookPage/RegisterButtons/Form';
 
 export type ComponentProps = {
   className?: string;

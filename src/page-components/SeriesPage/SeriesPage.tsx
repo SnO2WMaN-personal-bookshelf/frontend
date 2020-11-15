@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import React from 'react';
-import {SeriesPageBooksList} from '~/components/Page/SeriesPage/SeriesPageBooksList';
+import {SeriesPageBooksList} from '~/page-components/SeriesPage/SeriesPageBooksList';
 import {GetSeriesQuery} from '~~/generated/graphql-codegen/graphql-request/pages';
 
 export type ComponentProps = {

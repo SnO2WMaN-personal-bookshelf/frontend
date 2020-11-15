@@ -5,8 +5,8 @@ import {
   NextPage,
 } from 'next';
 import React from 'react';
-import {SeriesPage, SeriesPageProps} from '~/components/Page/SeriesPage';
 import {SdkForPageQueries} from '~/lib/graphql-request';
+import {SeriesPage, SeriesPageProps} from '~/page-components/SeriesPage';
 
 export type PageProps = SeriesPageProps;
 export const Page: NextPage<PageProps> = (props) => <SeriesPage {...props} />;

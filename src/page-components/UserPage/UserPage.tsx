@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {UserPageBookList} from '~/components/Page/UserPage/BooksList';
-import {UserPageMenu} from '~/components/Page/UserPage/Menu';
-import {UserPageProfile} from '~/components/Page/UserPage/Profile';
+import {UserPageBookList} from '~/page-components/UserPage/BooksList';
+import {UserPageMenu} from '~/page-components/UserPage/Menu';
+import {UserPageProfile} from '~/page-components/UserPage/Profile';
 import {GetUserForUserPageQuery} from '~~/generated/graphql-codegen/graphql-request/pages';
 
 export type ComponentProps = {

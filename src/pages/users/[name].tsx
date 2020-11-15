@@ -5,8 +5,8 @@ import {
   NextPage,
 } from 'next';
 import React from 'react';
-import {UserPage, UserPageProps} from '~/components/Page/UserPage';
 import {SdkForPageQueries} from '~/lib/graphql-request';
+import {UserPage, UserPageProps} from '~/page-components/UserPage';
 
 export type PageProps = UserPageProps;
 export const BookPage: NextPage<PageProps> = (props) => <UserPage {...props} />;

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {UserPageMenuButton} from '~/components/Page/UserPage/Menu/MenuButton';
+import {UserPageMenuButton} from '~/page-components/UserPage/Menu/MenuButton';
 
 export type ComponentProps = {
   className?: string;

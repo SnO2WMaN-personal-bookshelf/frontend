@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
-import {BooksListForSeries} from '~/components/Page/BookPage/BooksListForSeries';
-import {SeriesPageBooksList} from '~/components/Page/SeriesPage/SeriesPageBooksList';
+import {BooksListForSeries} from '~/page-components/BookPage/BooksListForSeries';
+import {SeriesPageBooksList} from '~/page-components/SeriesPage/SeriesPageBooksList';
 import {GetAuthorQuery} from '~~/generated/graphql-codegen/graphql-request/pages';
 
 export type ComponentProps = {
