@@ -1,0 +1,5 @@
+mutation registerBookToBookshelf($bookshelf: ID!, $book: ID!) {
+  createBookshelfRecord(bookshelf: $bookshelf, book: $book) {
+    id
+  }
+}

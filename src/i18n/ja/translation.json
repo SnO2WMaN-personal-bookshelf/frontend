@@ -6,5 +6,12 @@
   "{{name}}が読んでいる本": "{{name}}が$t(読んでいる本)",
   "{{name}}が読みたい本": "{{name}}が$t(読みたい本)",
   "{{name}}による本": "{{name}}による本",
-  "現在全{{total}}巻": "現在全$t(common:units.volume,{ \"count\": {{total}} })"
+  "現在全{{total}}巻": "現在全$t(common:units.volume,{ \"count\": {{total}} })",
+  "読んだ本に登録": "$t(読んだ本)に$t(common:register)",
+  "読んでいる本に登録": "$t(読んでいる本)に$t(common:register)",
+  "読みたい本に登録": "$t(読みたい本)に$t(common:register)",
+  "登録する": "$t(common:register)する",
+  "{{title}}を読んだ本に登録しますか?": "{{title}}を$t(読んだ本に登録)しますか?",
+  "{{title}}を読んでいる本に登録しますか?": "{{title}}を$t(読んでいる本に登録)しますか?",
+  "{{title}}を読みたい本に登録しますか?": "{{title}}を$t(読みたい本に登録)しますか?"
 }
