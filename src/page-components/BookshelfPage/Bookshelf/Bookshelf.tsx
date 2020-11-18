@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React, {useEffect, useState} from 'react';
 import {InView, useInView} from 'react-intersection-observer';
-import {BookLink} from '~/components/BookLink';
+import {DynamicBookLink} from '~/components/DynamicBookLink';
 import {Spinner} from '~/components/Spinner/Spinner';
 import {useBookshelfNextLoadLazyQuery} from '~~/generated/graphql-codegen/apollo/components';
 
@@ -17,7 +17,7 @@ export const Component: React.FC<ComponentProps> = ({className, books}) => (
   <div className={clsx(className)}>
     <div className={clsx('w-full', 'h-full', 'grid', 'gap-2', 'grid-cols-12')}>
       {books.map((book) => (
-        <BookLink key={book.id} book={book} className={clsx('h-full')} />
+        <DynamicBookLink key={book.id} book={book} className={clsx('h-full')} />
       ))}
     </div>
   </div>
