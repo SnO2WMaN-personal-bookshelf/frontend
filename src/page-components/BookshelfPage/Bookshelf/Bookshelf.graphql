@@ -1,0 +1,30 @@
+query BookshelfNextLoad($bookshelf: ID!, $endCursor: String!) {
+  bookshelf(id: $bookshelf) {
+    id
+    type
+    title
+    owner {
+      name
+      displayName
+    }
+    recordsConnection(first: 12, after: $endCursor) {
+      aggregate {
+        count
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          book {
+            id
+            title
+            cover
+          }
+        }
+      }
+    }
+  }
+}
