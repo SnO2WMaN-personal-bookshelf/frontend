@@ -1,10 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  Bookshelf,
-  BookshelfProps,
-} from '~/page-components/BookshelfPage/Bookshelf';
+import {Bookshelf, BookshelfProps} from '~/components/Bookshelf';
 import {GetBookshelfQuery} from '~~/generated/graphql-codegen/graphql-request/pages';
 
 export type ComponentProps = {
