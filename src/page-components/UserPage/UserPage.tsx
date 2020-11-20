@@ -85,7 +85,7 @@ export const Container: React.FC<ContainerProps> = ({user, ...props}) => {
         })),
       }}
       readingBooks={{
-        ...user.readBooks,
+        ...user.readingBooks,
         books: user.readingBooks.recordsConnection.edges.map(
           ({node: {book}}) => ({
             ...book,
@@ -94,7 +94,7 @@ export const Container: React.FC<ContainerProps> = ({user, ...props}) => {
         ),
       }}
       wishBooks={{
-        ...user.readBooks,
+        ...user.wishBooks,
         books: user.wishBooks.recordsConnection.edges.map(({node: {book}}) => ({
           ...book,
           cover: book.cover || undefined,
