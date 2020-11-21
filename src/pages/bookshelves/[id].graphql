@@ -1,0 +1,36 @@
+query GetBookshelf($id: ID!) {
+  bookshelf(id: $id) {
+    id
+    type
+    title
+    owner {
+      name
+      displayName
+    }
+    recordsConnection(first: 12) {
+      aggregate {
+        count
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          book {
+            id
+            title
+            cover
+          }
+        }
+      }
+    }
+  }
+}
+
+query GetAllBookshelfIDs {
+  allBookshelves {
+    id
+  }
+}

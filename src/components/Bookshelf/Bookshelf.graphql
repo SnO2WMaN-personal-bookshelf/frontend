@@ -1,12 +1,13 @@
-query Bookshelf($id: ID!, $endCursor: String) {
-  bookshelf(id: $id) {
+query BookshelfNextLoad($bookshelf: ID!, $endCursor: String!) {
+  bookshelf(id: $bookshelf) {
     id
-    total
-    recordsConnection(
-      first: 10
-      after: $endCursor
-      orderBy: {updatedAt: DESC}
-    ) {
+    type
+    title
+    owner {
+      name
+      displayName
+    }
+    recordsConnection(first: 12, after: $endCursor) {
       aggregate {
         count
       }
@@ -15,7 +16,6 @@ query Bookshelf($id: ID!, $endCursor: String) {
         endCursor
       }
       edges {
-        cursor
         node {
           id
           book {

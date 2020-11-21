@@ -1,132 +1,85 @@
 import clsx from 'clsx';
 import React, {useEffect, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import {Merge} from 'type-fest';
-import {BookLink} from '~/components/BookLink';
+import {InView, useInView} from 'react-intersection-observer';
+import {DynamicBookLink} from '~/components/DynamicBookLink';
 import {Spinner} from '~/components/Spinner/Spinner';
-import {useBookshelfQuery} from '~~/generated/graphql-codegen/apollo/components';
+import {useBookshelfNextLoadLazyQuery} from '~~/generated/graphql-codegen/apollo/components';
 
-export type ComponentProps = Merge<
-  Pick<ContainerProps, 'className'>,
-  {
-    books: {id: string; cover?: string; title: string}[];
-    i18n: {
-      [key in 'bookCounts']: string;
-    };
-  }
->;
-export const Component: React.FC<ComponentProps> = ({
-  className,
-  books,
-  i18n,
-}) => (
+export type ComponentProps = {
+  className?: string;
+  books: {
+    id: string;
+    title: string;
+    cover?: string;
+  }[];
+};
+export const Component: React.FC<ComponentProps> = ({className, books}) => (
   <div className={clsx(className)}>
-    <p>{i18n.bookCounts}</p>
-    <ul className={clsx('grid', 'grid-cols-8', 'gap-4')}>
-      {books.map(({cover, title, id}) => (
-        <li key={id}>
-          <BookLink className={clsx('h-full')} book={{id, cover, title}} />
-        </li>
+    <div className={clsx('w-full', 'h-full', 'grid', 'gap-2', 'grid-cols-12')}>
+      {books.map((book) => (
+        <DynamicBookLink key={book.id} book={book} className={clsx('h-full')} />
       ))}
-    </ul>
+    </div>
   </div>
 );
 
-export type ContainerProps = {className?: string; id: string};
-export const Container: React.FC<ContainerProps> = ({id, ...props}) => {
-  const {t, i18n} = useTranslation();
-
-  const {data, error, loading, fetchMore} = useBookshelfQuery({
-    variables: {id},
-  });
-
-  const [books, setBooks] = useState<ComponentProps['books']>([]);
+export type ContainerProps = {
+  className?: string;
+  bookshelf: string;
+  initialBooks: {
+    id: string;
+    title: string;
+    cover?: string;
+  }[];
+  initialPageInfo: {
+    hasNextPage: boolean;
+    endCursor?: string;
+  };
+};
+export const Container: React.FC<ContainerProps> = ({
+  bookshelf,
+  initialBooks,
+  initialPageInfo,
+  ...props
+}) => {
+  const [books, setBooks] = useState(initialBooks);
   const [pageInfo, setPageInfo] = useState<{
     hasNextPage: boolean;
-    endCursor: string | null;
-  }>({
-    hasNextPage: false,
-    endCursor: null,
-  });
+    endCursor?: string;
+  }>(initialPageInfo);
+  const {ref, inView, entry} = useInView();
+  const [next, {loading, data, fetchMore}] = useBookshelfNextLoadLazyQuery();
 
   useEffect(() => {
-    if (
-      data?.bookshelf?.recordsConnection.pageInfo &&
-      data.bookshelf.recordsConnection.edges
-    ) {
-      setBooks(
-        data.bookshelf.recordsConnection.edges.map(({node: {book}}) => ({
-          ...book,
-          cover: book.cover || undefined,
-        })),
-      );
-      setPageInfo({
-        hasNextPage: Boolean(
-          data.bookshelf.recordsConnection.pageInfo.hasNextPage,
-        ),
-        endCursor: data.bookshelf.recordsConnection.pageInfo.endCursor || null,
-      });
-    }
-  }, [data]);
+    if (loading || !data) return;
+    const {pageInfo, edges} = data.bookshelf.recordsConnection;
 
-  const next = () =>
-    fetchMore({
-      variables: {
-        id,
-        endCursor: pageInfo.endCursor,
-      },
-    }).then(({data}) => {
-      if (
-        data?.bookshelf?.recordsConnection.pageInfo &&
-        data.bookshelf.recordsConnection.edges
-      ) {
-        setBooks([
-          ...books,
-          ...data.bookshelf.recordsConnection.edges.map(({node: {book}}) => ({
-            ...book,
-            cover: book.cover || undefined,
-          })),
-        ]);
-        setPageInfo({
-          hasNextPage: Boolean(
-            data.bookshelf.recordsConnection.pageInfo.hasNextPage,
-          ),
-          endCursor:
-            data.bookshelf.recordsConnection.pageInfo.endCursor || null,
-        });
-      }
+    setPageInfo({
+      endCursor: pageInfo.endCursor || undefined,
+      hasNextPage: pageInfo.hasNextPage || false,
     });
+    setBooks((previous) => [
+      ...previous,
+      ...edges.map((record) => ({...record.node.book})),
+    ]);
+  }, [data, loading]);
 
-  if (data && data.bookshelf) {
-    return (
-      <InfiniteScroll
-        dataLength={books.length}
-        next={next}
-        hasMore={pageInfo.hasNextPage}
-        loader={InfiniteLoader}
-      >
-        <Component
-          {...props}
-          books={books}
-          i18n={{
-            bookCounts: t('common:units.books', {
-              count: data.bookshelf.total,
-            }),
-          }}
-        />
-      </InfiniteScroll>
-    );
-  }
-
-  if (loading) {
+  return (
     <>
-      <p>LOADING</p>
-    </>;
-  }
-  return <p>{JSON.stringify(error)}</p>;
+      <Component {...props} books={books} />
+      {!loading && pageInfo.hasNextPage && (
+        <InView
+          onChange={(inView) => {
+            if (inView && pageInfo.endCursor) {
+              return next({
+                variables: {endCursor: pageInfo.endCursor, bookshelf},
+              });
+            }
+          }}
+        >
+          <Spinner className={clsx('w-16', 'h-16')} />
+        </InView>
+      )}
+    </>
+  );
 };
-
-export const InfiniteLoader = (
-  <Spinner className={clsx('text-blue-400', 'text-4xl')} />
-);
