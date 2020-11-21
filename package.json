@@ -2,12 +2,10 @@
   "name": "my-personal-comic-db-frontend",
   "private": "true",
   "scripts": {
-    "prebuild": "run-s -cn clean",
-    "build": "run-s build:codegen build:next",
-    "build:codegen": "gql-gen",
-    "build:next": "next build",
+    "prebuild": "run-s -cn clean codegen",
+    "build": "next build",
     "dev": "run-p -n dev:*",
-    "dev:codegen": "yarn build:codegen -ws",
+    "dev:codegen": "yarn codegen -ws",
     "dev:next": "NODE_OPTIONS=--inspect next dev -p 3000",
     "test": "jest",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
@@ -24,8 +22,9 @@
     "fmt:prettier": "yarn lint:prettier --write",
     "fmt:stylelint": "yarn lint:stylelint --fix",
     "build-storybook": "build-storybook",
+    "codegen": "gql-gen",
     "storybook": "start-storybook -p 6006 -s ./public",
-    "tscheck": "tsc --noEmit"
+    "ts-check": "tsc --noEmit"
   },
   "engines": {
     "node": "12.x",
