@@ -17,8 +17,11 @@ jobs:
       - run: git submodule update --init
       - node/install-packages:
           pkg-manager: yarn
-      - run: yarn build:codegen
-      - run: yarn tscheck
+      - run:
+          command: yarn codegen
+          environment:
+            GRAPHQL_API_SCHEMA: docker/api/schema.graphql
+      - run: yarn ts-check
       - save_cache:
           paths:
             - 'generated/graphql-codegen'
@@ -73,12 +76,6 @@ workflows:
   main:
     jobs:
       - ts-check
-      - lint-eslint:
-          requires:
-            - ts-check
-      - lint-stylelint:
-          requires:
-            - ts-check
-      - lint-prettier:
-          requires:
-            - ts-check
+      - lint-eslint
+      - lint-stylelint
+      - lint-prettier

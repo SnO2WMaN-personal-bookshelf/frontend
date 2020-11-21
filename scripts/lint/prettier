@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+prettier --check **/*.{json,yml,yaml,md,graphql} $1
+
+prettier --check --parser json $1 \
+  .eslintrc \
+  .stylelintrc \
+  .prettierrc \
+  .babelrc \
+  .optipackrc \
+  .renovaterc

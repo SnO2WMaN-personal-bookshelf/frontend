@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+stylelint **/*.{css,scss,sass,jsx,tsx} $1
