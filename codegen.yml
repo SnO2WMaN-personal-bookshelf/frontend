@@ -21,6 +21,7 @@ generates:
   ./generated/graphql-codegen/apollo/components.ts:
     documents:
       - 'src/components/**/*.graphql'
+      - 'src/page-components/**/*.graphql'
     plugins:
       - 'typescript'
       - 'typescript-operations'
